@@ -91,6 +91,20 @@ class BorrowDirectHelper( object ):
           settings = imp.load_source( '*', settings )
         return settings
 
+    # def normalize_settings( self, settings ):
+    #     """ Returns a settings module regardless whether settings are passed in as a module or dict or settings-path.
+    #         Called by BorrowDirect.__init__() """
+    #     types = [ NoneType, dict, ModuleType, unicode ]
+    #     assert type(settings) in types, Exception( 'Passing in settings is optional, but if used, must be either a dict, a unicode path to a settings module, or a module named settings; current type is: %s' % repr(type(settings)) )
+    #     if isinstance(settings, dict):
+    #       s = imp.new_module( 'settings' )
+    #       for k, v in settings.items():
+    #         setattr( s, k, v )
+    #       settings = s
+    #     elif isinstance( settings, unicode ):  # path
+    #       settings = imp.load_source( '*', settings )
+    #     return settings
+
     def update_properties( self, bd_instance, settings ):
         """ Sets main properties.
             Called by BorrowDirect.__init__() """
