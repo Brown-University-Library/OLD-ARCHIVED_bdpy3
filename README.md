@@ -1,3 +1,7 @@
+UNDER DEVELOPMENT
+=================
+
+
 ### about ###
 
 'bdpy' faciliates programmatic access to the API to [BorrowDirect](http://www.borrowdirect.org), an academic book-borrowing consortium.
