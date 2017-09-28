@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
-
-import exceptions, imp, pprint, os, time, unittest
+import imp, pprint, os, time, unittest
 from bdpy import BorrowDirect
 from bdpy.auth import Authenticator
 from bdpy.search import Searcher
@@ -15,17 +13,17 @@ SLEEP_SECONDS = 2  # being nice
 class BorrowDirectTests( unittest.TestCase ):
 
     def setUp(self):
-        self.LOG_PATH = unicode( os.environ['BDPY_TEST__LOG_PATH'] )  # if None  ...outputs to console
+        self.LOG_PATH = os.environ['BDPY_TEST__LOG_PATH']  # if None  ...outputs to console
         time.sleep( SLEEP_SECONDS )
-        self.patron_barcode = unicode( os.environ['BDPY_TEST__PATRON_BARCODE'] )
-        self.api_url_root = unicode( os.environ['BDPY_TEST__API_URL_ROOT'] )
-        self.api_key = unicode( os.environ['BDPY_TEST__API_KEY'] )
-        self.university_code = unicode( os.environ['BDPY_TEST__UNIVERSITY_CODE'] )
-        self.partnership_id = unicode( os.environ['BDPY_TEST__PARTNERSHIP_ID'] )
-        self.pickup_location = unicode( os.environ['BDPY_TEST__PICKUP_LOCATION'] )
-        self.isbn_found_and_available = unicode( os.environ['BDPY_TEST__ISBN_FOUND_AND_AVAILABLE'] )
-        self.isbn_found_and_unavailable = unicode( os.environ['BDPY_TEST__ISBN_FOUND_AND_UNAVAILABLE'] )
-        self.isbn_not_found = unicode( os.environ['BDPY_TEST__ISBN_NOT_FOUND'] )
+        self.patron_barcode = os.environ['BDPY_TEST__PATRON_BARCODE']
+        self.api_url_root = os.environ['BDPY_TEST__API_URL_ROOT']
+        self.api_key = os.environ['BDPY_TEST__API_KEY']
+        self.university_code = os.environ['BDPY_TEST__UNIVERSITY_CODE']
+        self.partnership_id = os.environ['BDPY_TEST__PARTNERSHIP_ID']
+        self.pickup_location = os.environ['BDPY_TEST__PICKUP_LOCATION']
+        self.isbn_found_and_available = os.environ['BDPY_TEST__ISBN_FOUND_AND_AVAILABLE']
+        self.isbn_found_and_unavailable = os.environ['BDPY_TEST__ISBN_FOUND_AND_UNAVAILABLE']
+        self.isbn_not_found = os.environ['BDPY_TEST__ISBN_NOT_FOUND']
 
     def test_settings_instantiation(self):
         """ Tests that instance instantiation handles settings not-defined, or defined as dict, module, or path. """
@@ -145,14 +143,14 @@ class AuthenticatorTests( unittest.TestCase ):
 
     def setUp(self):
         time.sleep( SLEEP_SECONDS )
-        self.LOG_PATH = unicode( os.environ['BDPY_TEST__LOG_PATH'] )  # if None  ...outputs to console
+        self.LOG_PATH = os.environ['BDPY_TEST__LOG_PATH']  # if None  ...outputs to console
         bd = BorrowDirect( {'LOG_PATH': self.LOG_PATH} )
         self.logger = bd.logger
-        self.patron_barcode = unicode( os.environ['BDPY_TEST__PATRON_BARCODE'] )
-        self.api_url_root = unicode( os.environ['BDPY_TEST__API_URL_ROOT'] )
-        self.api_key = unicode( os.environ['BDPY_TEST__API_KEY'] )
-        self.university_code = unicode( os.environ['BDPY_TEST__UNIVERSITY_CODE'] )
-        self.partnership_id = unicode( os.environ['BDPY_TEST__PARTNERSHIP_ID'] )
+        self.patron_barcode = os.environ['BDPY_TEST__PATRON_BARCODE']
+        self.api_url_root = os.environ['BDPY_TEST__API_URL_ROOT']
+        self.api_key = os.environ['BDPY_TEST__API_KEY']
+        self.university_code = os.environ['BDPY_TEST__UNIVERSITY_CODE']
+        self.partnership_id = os.environ['BDPY_TEST__PARTNERSHIP_ID']
 
     def test_authenticate(self):
         """ Tests getting an authentication-id. """
@@ -180,17 +178,17 @@ class SearcherTests( unittest.TestCase ):
 
     def setUp(self):
         time.sleep( SLEEP_SECONDS )
-        self.LOG_PATH = unicode( os.environ['BDPY_TEST__LOG_PATH'] )  # if None  ...outputs to console
+        self.LOG_PATH = os.environ['BDPY_TEST__LOG_PATH']  # if None  ...outputs to console
         bd = BorrowDirect( {'LOG_PATH': self.LOG_PATH} )
         self.logger = bd.logger
-        self.patron_barcode = unicode( os.environ['BDPY_TEST__PATRON_BARCODE'] )
-        self.api_url_root = unicode( os.environ['BDPY_TEST__API_URL_ROOT'] )
-        self.api_key = unicode( os.environ['BDPY_TEST__API_KEY'] )
-        self.university_code = unicode( os.environ['BDPY_TEST__UNIVERSITY_CODE'] )
-        self.partnership_id = unicode( os.environ['BDPY_TEST__PARTNERSHIP_ID'] )
-        self.isbn_found_and_available = unicode( os.environ['BDPY_TEST__ISBN_FOUND_AND_AVAILABLE'] )
-        self.isbn_found_and_unavailable = unicode( os.environ['BDPY_TEST__ISBN_FOUND_AND_UNAVAILABLE'] )
-        self.isbn_not_found = unicode( os.environ['BDPY_TEST__ISBN_NOT_FOUND'] )
+        self.patron_barcode = os.environ['BDPY_TEST__PATRON_BARCODE']
+        self.api_url_root = os.environ['BDPY_TEST__API_URL_ROOT']
+        self.api_key = os.environ['BDPY_TEST__API_KEY']
+        self.university_code = os.environ['BDPY_TEST__UNIVERSITY_CODE']
+        self.partnership_id = os.environ['BDPY_TEST__PARTNERSHIP_ID']
+        self.isbn_found_and_available = os.environ['BDPY_TEST__ISBN_FOUND_AND_AVAILABLE']
+        self.isbn_found_and_unavailable = os.environ['BDPY_TEST__ISBN_FOUND_AND_UNAVAILABLE']
+        self.isbn_not_found = os.environ['BDPY_TEST__ISBN_NOT_FOUND']
 
     def test_search_found_available(self):
         """ Tests basic isbn search for available found item. """
@@ -230,18 +228,18 @@ class RequesterTests( unittest.TestCase ):
 
     def setUp(self):
         time.sleep( SLEEP_SECONDS )
-        self.LOG_PATH = unicode( os.environ['BDPY_TEST__LOG_PATH'] )  # if None  ...outputs to console
+        self.LOG_PATH = os.environ['BDPY_TEST__LOG_PATH']  # if None  ...outputs to console
         bd = BorrowDirect( {'LOG_PATH': self.LOG_PATH} )
         self.logger = bd.logger
-        self.patron_barcode = unicode( os.environ['BDPY_TEST__PATRON_BARCODE'] )
-        self.api_url_root = unicode( os.environ['BDPY_TEST__API_URL_ROOT'] )
-        self.api_key = unicode( os.environ['BDPY_TEST__API_KEY'] )
-        self.university_code = unicode( os.environ['BDPY_TEST__UNIVERSITY_CODE'] )
-        self.partnership_id = unicode( os.environ['BDPY_TEST__PARTNERSHIP_ID'] )
-        self.pickup_location = unicode( os.environ['BDPY_TEST__PICKUP_LOCATION'] )
-        self.isbn_found_and_available = unicode( os.environ['BDPY_TEST__ISBN_FOUND_AND_AVAILABLE'] )
-        self.isbn_found_and_unavailable = unicode( os.environ['BDPY_TEST__ISBN_FOUND_AND_UNAVAILABLE'] )
-        self.isbn_not_found = unicode( os.environ['BDPY_TEST__ISBN_NOT_FOUND'] )
+        self.patron_barcode = os.environ['BDPY_TEST__PATRON_BARCODE']
+        self.api_url_root = os.environ['BDPY_TEST__API_URL_ROOT']
+        self.api_key = os.environ['BDPY_TEST__API_KEY']
+        self.university_code = os.environ['BDPY_TEST__UNIVERSITY_CODE']
+        self.partnership_id = os.environ['BDPY_TEST__PARTNERSHIP_ID']
+        self.pickup_location = os.environ['BDPY_TEST__PICKUP_LOCATION']
+        self.isbn_found_and_available = os.environ['BDPY_TEST__ISBN_FOUND_AND_AVAILABLE']
+        self.isbn_found_and_unavailable = os.environ['BDPY_TEST__ISBN_FOUND_AND_UNAVAILABLE']
+        self.isbn_not_found = os.environ['BDPY_TEST__ISBN_NOT_FOUND']
 
     # def test_request_item_found_and_available(self):
     #     """ Tests basic isbn request for available found item.

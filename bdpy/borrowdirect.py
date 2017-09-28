@@ -4,7 +4,8 @@ from __future__ import unicode_literals
 
 import imp, json, logging, pprint, time
 import requests
-from types import ModuleType, NoneType
+# from types import ModuleType, NoneType
+from types import ModuleType
 from .auth import Authenticator
 from .search import Searcher
 from .request import Requester
