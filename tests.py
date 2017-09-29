@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import imp, pprint, os, time, unittest
+import imp, logging, pprint, os, time, unittest
 from bdpy3 import BorrowDirect, logger_setup
 from bdpy3.auth import Authenticator
 from bdpy3.search import Searcher
@@ -8,13 +8,14 @@ from bdpy3.request import Requester
 
 
 SLEEP_SECONDS = 2  # being nice
+
+log = logging.getLogger(__name__)
 logger_setup.check_logger()
 
 
 class BorrowDirectTests( unittest.TestCase ):
 
     def setUp(self):
-        self.LOG_PATH = os.environ['BDPY3_TEST__LOG_PATH']  # if None  ...outputs to console
         time.sleep( SLEEP_SECONDS )
         self.patron_barcode = os.environ['BDPY3_TEST__PATRON_BARCODE']
         self.api_url_root = os.environ['BDPY3_TEST__API_URL_ROOT']
@@ -207,9 +208,9 @@ class SearcherTests( unittest.TestCase ):
         result_dct = s.search(
             self.patron_barcode, search_key, search_value, self.api_url_root, self.api_key, self.partnership_id, self.university_code )
         self.assertEqual(
-            [u'Available', u'RequestLink', u'SearchTerm'], sorted(result_dct.keys()) )
-        self.assertEqual(
-            False, result_dct['Available'] )
+            ['Available', 'OrigNumberOfRecords', 'PickupLocation', 'RequestLink'], sorted(result_dct.keys()) )
+        self.assertTrue(
+            result_dct['Available'] in [True, False] )
 
     def test_search_not_found(self):
         """ Tests basic isbn search for not-found item. """

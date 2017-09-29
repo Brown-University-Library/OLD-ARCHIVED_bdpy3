@@ -37,6 +37,5 @@ def check_logger():
         Called by most bdpy3 modules. """
     if not logging._handlers:
         config_dct = json.loads( os.environ.get('BDPY3_LOG_CONFIG_JSON', json.dumps(DEFAULT_CONFIG_DCT)) )
-        print( 'config_dct, ```%s```' % pprint.pformat(config_dct) )
         logging.config.dictConfig( config_dct )
         return
