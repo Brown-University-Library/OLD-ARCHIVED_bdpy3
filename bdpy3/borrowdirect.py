@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 
-import imp, json, logging, os, pprint, time
+import imp, json, logging, os, pprint, time, types
 import requests
 from . import logger_setup
 from .auth import Authenticator
@@ -83,9 +83,7 @@ class BorrowDirectHelper( object ):
         """ Returns a settings module regardless whether settings are passed in as a module or dict or settings-path.
             Called by BorrowDirect.__init__() """
         log.debug( 'type(settings), ```%s```' % type(settings) )
-        # types = [ NoneType, dict, ModuleType, unicode ]
-        # assert type(settings) in types, Exception( 'Passing in settings is optional, but if used, must be either a dict, a unicode path to a settings module, or a module named settings; current type is: %s' % repr(type(settings)) )
-        assert isinstance( settings, dict ), Exception( 'Passing in settings is optional, but if used, must be either a dict, a unicode path to a settings module, or a module named settings; current type is: %s' % repr(type(settings)) )
+        assert ( isinstance(settings, dict) or isinstance(settings, str) or isinstance(settings, types.ModuleType) or settings == None  ), Exception( 'Passing in settings is optional, but if used, must be either a dict, a path to a settings module, or a module named settings; current type is: %s' % type(settings) )
         if isinstance( settings, dict ):
             s = imp.new_module( 'settings' )
             for k, v in settings.items():
@@ -94,20 +92,6 @@ class BorrowDirectHelper( object ):
         elif isinstance( settings, str ):  # path
               settings = imp.load_source( '*', settings )
         return settings
-
-    # def normalize_settings( self, settings ):
-    #     """ Returns a settings module regardless whether settings are passed in as a module or dict or settings-path.
-    #         Called by BorrowDirect.__init__() """
-    #     types = [ NoneType, dict, ModuleType, unicode ]
-    #     assert type(settings) in types, Exception( 'Passing in settings is optional, but if used, must be either a dict, a unicode path to a settings module, or a module named settings; current type is: %s' % repr(type(settings)) )
-    #     if isinstance(settings, dict):
-    #       s = imp.new_module( 'settings' )
-    #       for k, v in settings.items():
-    #         setattr( s, k, v )
-    #       settings = s
-    #     elif isinstance( settings, unicode ):  # path
-    #       settings = imp.load_source( '*', settings )
-    #     return settings
 
     def update_properties( self, bd_instance, settings ):
         """ Sets main properties.
