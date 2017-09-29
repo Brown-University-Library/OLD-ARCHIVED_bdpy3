@@ -197,7 +197,7 @@ class SearcherTests( unittest.TestCase ):
         result_dct = s.search(
             self.patron_barcode, search_key, search_value, self.api_url_root, self.api_key, self.partnership_id, self.university_code )
         self.assertEqual(
-            ['Available', 'PickupLocation', 'RequestLink', 'SearchTerm'], sorted(result_dct.keys()) )
+            ['Available', 'OrigNumberOfRecords', 'PickupLocation', 'RequestLink'], sorted(result_dct.keys()) )
         self.assertEqual(
             True, result_dct['Available'] )
 
@@ -208,9 +208,9 @@ class SearcherTests( unittest.TestCase ):
         result_dct = s.search(
             self.patron_barcode, search_key, search_value, self.api_url_root, self.api_key, self.partnership_id, self.university_code )
         self.assertEqual(
-            ['Available', 'OrigNumberOfRecords', 'PickupLocation', 'RequestLink'], sorted(result_dct.keys()) )
-        self.assertTrue(
-            result_dct['Available'] in [True, False] )
+            ['Available', 'OrigNumberOfRecords', 'RequestLink'], sorted(result_dct.keys()) )
+        self.assertEqual(
+            False, result_dct['Available'] )
 
     def test_search_not_found(self):
         """ Tests basic isbn search for not-found item. """
