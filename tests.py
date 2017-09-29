@@ -220,6 +220,15 @@ class SearcherTests( unittest.TestCase ):
         self.assertEqual(
             {"Problem":{"ErrorCode":"PUBFI002","ErrorMessage":"No result"}}, result_dct )
 
+    def test_search_item_available_locally(self):
+        """ Tests basic isbn search for item that is available locally. """
+        s = Searcher()
+        ( search_key, search_value ) = ( 'ISBN', self.isbn_available_locally )
+        result_dct = s.search(
+            self.patron_barcode, search_key, search_value, self.api_url_root, self.api_key, self.partnership_id, self.university_code )
+        self.assertEqual(
+            {"Problem":{"ErrorCode":"PUBFI002","ErrorMessage":"No result"}}, result_dct )
+
     # end class SearcherTests
 
 

@@ -22,9 +22,9 @@ on this page...
 
 git clone, or pip install...
 
-    $ pip install git+https://github.com/Brown-University-Library/borrowdirect.py@0.10
+    $ pip install git+https://github.com/birkin/bdpy3
 
-- best to install a 'release' version, as in the example above, though all code in the master branch can be expected to be stable.
+- best to install a 'release' version, though all code in the master branch can be expected to be stable.
 
 - one dependency: the awesome [requests](http://docs.python-requests.org/en/latest/) module, which is automatically pip-installed if necessary
 
@@ -34,7 +34,7 @@ git clone, or pip install...
 
 - search:
 
-        >>> from bdpy import BorrowDirect
+        >>> from bdpy3 import BorrowDirect
         >>> defaults = {
             'API_URL_ROOT': url, 'API_KEY': key, 'PARTNERSHIP_ID': id, 'UNIVERSITY_CODE': code }
         >>> bd = BorrowDirect( defaults )
@@ -52,7 +52,7 @@ git clone, or pip install...
 
 - or request:
 
-        >>> from bdpy import BorrowDirect
+        >>> from bdpy3 import BorrowDirect
         >>> defaults = {
             'API_URL_ROOT': url, 'API_KEY': key, 'PARTNERSHIP_ID': id, 'UNIVERSITY_CODE': code, 'PICKUP_LOCATION': location }
         >>> bd = BorrowDirect( defaults )
