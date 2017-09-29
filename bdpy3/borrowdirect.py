@@ -2,13 +2,16 @@
 
 from __future__ import unicode_literals
 
-import imp, json, logging, pprint, time
+import imp, json, logging, os, pprint, time
 import requests
-# from types import ModuleType, NoneType
-from types import ModuleType
+from . import logger_setup
 from .auth import Authenticator
-from .search import Searcher
 from .request import Requester
+from .search import Searcher
+
+
+log = logging.getLogger(__name__)
+logger_setup.check_logger()
 
 
 class BorrowDirect( object ):
@@ -80,15 +83,17 @@ class BorrowDirectHelper( object ):
     def normalize_settings( self, settings ):
         """ Returns a settings module regardless whether settings are passed in as a module or dict or settings-path.
             Called by BorrowDirect.__init__() """
-        types = [ NoneType, dict, ModuleType, unicode ]
-        assert type(settings) in types, Exception( 'Passing in settings is optional, but if used, must be either a dict, a unicode path to a settings module, or a module named settings; current type is: %s' % repr(type(settings)) )
-        if isinstance(settings, dict):
-          s = imp.new_module( 'settings' )
-          for k, v in settings.items():
-            setattr( s, k, v )
-          settings = s
-        elif isinstance( settings, unicode ):  # path
-          settings = imp.load_source( '*', settings )
+        log.debug( 'type(settings), ```%s```' % type(settings) )
+        # types = [ NoneType, dict, ModuleType, unicode ]
+        # assert type(settings) in types, Exception( 'Passing in settings is optional, but if used, must be either a dict, a unicode path to a settings module, or a module named settings; current type is: %s' % repr(type(settings)) )
+        assert isinstance( settings, dict ), Exception( 'Passing in settings is optional, but if used, must be either a dict, a unicode path to a settings module, or a module named settings; current type is: %s' % repr(type(settings)) )
+        if isinstance( settings, dict ):
+            s = imp.new_module( 'settings' )
+            for k, v in settings.items():
+                setattr( s, k, v )
+            settings = s
+        elif isinstance( settings, str ):  # path
+              settings = imp.load_source( '*', settings )
         return settings
 
     # def normalize_settings( self, settings ):

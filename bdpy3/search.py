@@ -2,9 +2,14 @@
 
 from __future__ import unicode_literals
 
-import json, pprint
+import json, logging, os, pprint
 import requests
+from . import logger_setup
 from .auth import Authenticator
+
+
+log = logging.getLogger(__name__)
+logger_setup.check_logger()
 
 
 class Searcher( object ):
@@ -12,8 +17,7 @@ class Searcher( object ):
         BorrowDirect 'FindIt Web Service' docs: <https://relais.atlassian.net/wiki/display/ILL/Find+Item>
         Called by BorrowDirect.run_search() """
 
-    def __init__( self, logger ):
-        self.logger = logger
+    def __init__( self ):
         self.valid_search_keys = [ 'ISBN', 'ISSN', 'LCCN', 'OCLC', 'PHRASE' ]
 
     def search( self, patron_barcode, search_key, search_value, api_url_root, api_key, partnership_id, university_code ):
@@ -25,8 +29,8 @@ class Searcher( object ):
         url = '%s/dws/item/available?aid=%s' % ( api_url_root, authorization_id )
         headers = { 'Content-type': 'application/json' }
         r = requests.post( url, data=json.dumps(params), headers=headers )
-        self.logger.debug( 'search r.url, `%s`' % r.url )
-        self.logger.debug( 'search r.content, `%s`' % r.content.decode('utf-8') )
+        log.debug( 'search r.url, `%s`' % r.url )
+        log.debug( 'search r.content, `%s`' % r.content.decode('utf-8') )
         result_dct = r.json()
         return result_dct
 
@@ -35,8 +39,8 @@ class Searcher( object ):
             Called by search()
             Note that only the authenticator webservice is called;
               the authorization webservice simply extends the same id's session time and so is not needed here. """
-        self.logger.debug( 'starting get_authorization_id()...' )
-        authr = Authenticator( self.logger )
+        log.debug( 'starting get_authorization_id()...' )
+        authr = Authenticator()
         authorization_id = authr.authenticate(
             patron_barcode, api_url_root, api_key, university_code, partnership_id )
         return authorization_id
@@ -49,7 +53,7 @@ class Searcher( object ):
             'ExactSearch': [ {
                 'Type': search_key, 'Value': search_value } ]
                 }
-        self.logger.debug( 'params, `%s`' % pprint.pformat(params) )
+        log.debug( 'params, `%s`' % pprint.pformat(params) )
         return params
 
     # end class Searcher

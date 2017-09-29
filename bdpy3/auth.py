@@ -2,8 +2,13 @@
 
 from __future__ import unicode_literals
 
-import json, pprint
+import json, logging, os, pprint
 import requests
+from . import logger_setup
+
+
+log = logging.getLogger(__name__)
+logger_setup.check_logger()
 
 
 class Authenticator( object ):
@@ -12,8 +17,8 @@ class Authenticator( object ):
         BorrowDirect 'Authorization Web Service' docs: <http://borrowdirect.pbworks.com/w/page/90132884/Authorization%20Web%20Service> (login required)
         Called by BorrowDirect.run_auth_nz() """
 
-    def __init__( self, logger ):
-        self.logger = logger
+    def __init__( self ):
+        pass
 
     def authenticate( self, patron_barcode, api_url, api_key, partnership_id, university_code ):
         """ Accesses and returns authentication-id for storage.
@@ -21,9 +26,9 @@ class Authenticator( object ):
         url = '%s/portal-service/user/authentication' % api_url
         headers = { 'Content-type': 'application/json', 'Accept': 'text/plain'}
         params = self._make_auth_params( patron_barcode, api_url, api_key, partnership_id, university_code )
-        self.logger.debug( 'params, `%s`' % pprint.pformat(params) )
+        log.debug( 'params, `%s`' % pprint.pformat(params) )
         r = requests.post( url, data=json.dumps(params), headers=headers )
-        self.logger.debug( 'auth response, `%s`' % unicode(r.content) )
+        log.debug( 'auth response, `%s`' % r.content.decode('utf-8') )
         authentication_id = r.json()['AuthorizationId']
         return authentication_id
 
