@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
-
 import imp, json, logging, os, pprint, time, types
 import requests
 from . import logger_setup

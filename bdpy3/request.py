@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
-
-import json, pprint
+import json, logging, pprint
 import requests
+from . import logger_setup
 from .auth import Authenticator
+
+
+log = logging.getLogger(__name__)
+logger_setup.check_logger()
 
 
 class Requester( object ):
