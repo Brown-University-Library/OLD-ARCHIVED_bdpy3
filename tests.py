@@ -60,7 +60,7 @@ class BorrowDirectTests( unittest.TestCase ):
             'API_KEY': self.api_key,
             'PARTNERSHIP_ID': self.partnership_id,
             'UNIVERSITY_CODE': self.university_code,
-            'LOG_PATH': self.LOG_PATH }
+        }
         bd = BorrowDirect( basics )
         bd.run_auth_nz( self.patron_barcode )
         self.assertEqual(
@@ -73,7 +73,7 @@ class BorrowDirectTests( unittest.TestCase ):
             'API_KEY': self.api_key,
             'PARTNERSHIP_ID': self.partnership_id,
             'UNIVERSITY_CODE': self.university_code,
-            'LOG_PATH': self.LOG_PATH }
+        }
         bd = BorrowDirect( basics )
         bd.run_search( self.patron_barcode, 'ISBN', self.isbn_found_and_available )
         # print bd.search_result
@@ -87,7 +87,7 @@ class BorrowDirectTests( unittest.TestCase ):
             'API_KEY': self.api_key,
             'PARTNERSHIP_ID': self.partnership_id,
             'UNIVERSITY_CODE': self.university_code,
-            'LOG_PATH': self.LOG_PATH }
+        }
         bd = BorrowDirect( basics )
         bd.run_search( self.patron_barcode, 'ISBN', self.isbn_found_and_unavailable )
         self.assertEqual( ['Available', 'RequestLink', 'SearchTerm'], sorted(bd.search_result.keys()) )
@@ -100,7 +100,7 @@ class BorrowDirectTests( unittest.TestCase ):
             'API_KEY': self.api_key,
             'PARTNERSHIP_ID': self.partnership_id,
             'UNIVERSITY_CODE': self.university_code,
-            'LOG_PATH': self.LOG_PATH }
+        }
         bd = BorrowDirect( basics )
         bd.run_search( self.patron_barcode, 'ISBN', self.isbn_not_found )
         self.assertEqual(
@@ -132,7 +132,7 @@ class BorrowDirectTests( unittest.TestCase ):
             'PARTNERSHIP_ID': self.partnership_id,
             'UNIVERSITY_CODE': self.university_code,
             'PICKUP_LOCATION': self.pickup_location,
-            'LOG_PATH': self.LOG_PATH }
+        }
         bd = BorrowDirect( basics )
         bd.run_request_item( self.patron_barcode, 'ISBN', self.isbn_not_found )
         self.assertEqual(
