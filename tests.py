@@ -76,8 +76,7 @@ class BorrowDirectTests( unittest.TestCase ):
         }
         bd = BorrowDirect( basics )
         bd.run_search( self.patron_barcode, 'ISBN', self.isbn_found_and_available )
-        # print bd.search_result
-        self.assertEqual( ['Available', 'PickupLocation', 'RequestLink', 'SearchTerm'], sorted(bd.search_result.keys()) )
+        self.assertEqual( ['Available', 'OrigNumberOfRecords', 'PickupLocation', 'RequestLink'], sorted(bd.search_result.keys()) )
         self.assertEqual( True, bd.search_result['Available'] )
 
     def test_run_search__found_and_unavailable(self):
@@ -90,7 +89,7 @@ class BorrowDirectTests( unittest.TestCase ):
         }
         bd = BorrowDirect( basics )
         bd.run_search( self.patron_barcode, 'ISBN', self.isbn_found_and_unavailable )
-        self.assertEqual( ['Available', 'RequestLink', 'SearchTerm'], sorted(bd.search_result.keys()) )
+        self.assertEqual( ['Available', 'OrigNumberOfRecords', 'RequestLink'], sorted(bd.search_result.keys()) )
         self.assertEqual( False, bd.search_result['Available'] )
 
     def test_run_search__not_found(self):
