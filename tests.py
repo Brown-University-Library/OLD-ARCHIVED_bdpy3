@@ -242,7 +242,7 @@ class RequesterTests( unittest.TestCase ):
     # def test_request_item_found_and_available(self):
     #     """ Tests basic isbn request for available found item.
     #         NOTE: commented out because this will really request the item. """
-    #     r = Requester( self.logger )
+    #     r = Requester()
     #     ( search_key, search_value ) = ( 'ISBN', self.isbn_found_and_available )
     #     result_dct = r.request_item(
     #         self.patron_barcode, search_key, search_value, self.pickup_location, self.api_url_root, self.api_key, self.partnership_id, self.university_code )

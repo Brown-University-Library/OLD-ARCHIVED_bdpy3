@@ -12,8 +12,7 @@ class Requester( object ):
         BorrowDirect 'RequestItem Web Service' docs: <http://borrowdirect.pbworks.com/w/page/90133541/RequestItem%20Web%20Service> (login required)
         Called by BorrowDirect.run_request_item() """
 
-    def __init__( self, logger ):
-        self.logger = logger
+    def __init__( self ):
         self.valid_search_keys = [ 'ISBN', 'ISSN', 'LCCN', 'OCLC', 'PHRASE' ]
 
     def request_item( self, patron_barcode, search_key, search_value, pickup_location, api_url_root, api_key, partnership_id, university_code ):
@@ -25,8 +24,8 @@ class Requester( object ):
         url = '%s/dws/item/add?aid=%s' % ( api_url_root, authorization_id )
         headers = { 'Content-type': 'application/json' }
         r = requests.post( url, data=json.dumps(params), headers=headers )
-        self.logger.debug( 'request r.url, `%s`' % r.url )
-        self.logger.debug( 'request r.content, `%s`' % r.content.decode('utf-8') )
+        log.debug( 'request r.url, `%s`' % r.url )
+        log.debug( 'request r.content, `%s`' % r.content.decode('utf-8') )
         result_dct = r.json()
         return result_dct
 
@@ -35,7 +34,7 @@ class Requester( object ):
             Called by request_item()
             Note that only the authenticator webservice is called;
               the authorization webservice simply extends the same id's session time and so is not needed here. """
-        authr = Authenticator( self.logger )
+        authr = Authenticator()
         authorization_id = authr.authenticate(
             patron_barcode, api_url_root, api_key, partnership_id, university_code )
         return authorization_id
@@ -52,7 +51,7 @@ class Requester( object ):
                 'Value': search_value
                 } ]
             }
-        self.logger.debug( 'params, `%s`' % pprint.pformat(params) )
+        log.debug( 'params, `%s`' % pprint.pformat(params) )
         return params
 
     # end class Requester
