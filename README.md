@@ -4,7 +4,7 @@ UNDER DEVELOPMENT
 
 ### about ###
 
-'bdpy' faciliates programmatic access to the API to [BorrowDirect](http://www.borrowdirect.org), an academic book-borrowing consortium.
+'bdpy3' is a python3 library that faciliates programmatic access to the API to [BorrowDirect](http://www.borrowdirect.org), an academic book-borrowing consortium.
 
 We use this in production for our 15,000+ successful automated BorrowDirect requests each year -- _and_ for thousands more automated searches for items that are either unavailable or not-found.
 
@@ -46,8 +46,7 @@ git clone, or pip install...
                              'PickupLocationDescription': 'Rockefeller Library'}],
          'RequestLink': {'ButtonLabel': 'Request',
                          'ButtonLink': 'AddRequest',
-                         'RequestMessage': 'Request this through Borrow Direct.'},
-         'SearchTerm': 'isbn=9780688002305'}
+                         'RequestMessage': 'Request this through Borrow Direct.'}}
 
 
 - or request:
@@ -118,7 +117,7 @@ bd.request_result
 
 - no need to call the auth wrapper explicitly -- the calls to search and request do it automatically -- but you could if you wanted to:
 
-        >>> from bdpy import BorrowDirect
+        >>> from bdpy3 import BorrowDirect
         >>> defaults = {
             'API_URL_ROOT': url, 'API_KEY': key, 'PARTNERSHIP_ID': id, 'UNIVERSITY_CODE': code }
         >>> bd = BorrowDirect( defaults )
@@ -133,20 +132,11 @@ bd.request_result
     - [searching](https://relais.atlassian.net/wiki/display/ILL/Find+Item)
     - [requesting](https://relais.atlassian.net/wiki/display/ILL/RequestItem)
 
-- bdpy code contact: birkin_diana@brown.edu
-
-- check out [bdpyweb](https://github.com/birkin/bdpyweb_code), a lightweight [flask](http://flask.pocoo.org) app that turns this bdpy library into a webservice that can be accessed from any language. (This is how our automated [easyBorrow](http://library.brown.edu/borrowing/easyBorrow.php) system requests books for our patrons.)
+- bdpy3 code contact: birkin_diana@brown.edu
 
 - for a ruby library, see [jonathan rochkind's](https://github.com/jrochkind) comprehensive and well-tested [borrowdirect-api wrapper](https://github.com/jrochkind/borrow_direct)
 
-- note: this code uses the November 2015 version of the Relais BorrowDirect api. To use this library with the previous version of the api:
-
-        $ pip install git+https://github.com/birkin/borrowdirect.py@0.09b
-
-    This is only a convenience of version-control; I'm not maintaining the code for the old BorrowDirect api.
-
-- dev gotchas...
-    - If you forget to include your partnership-id, you'll get back, on the auth-attempt, a message that your api-key is incorrect even if it's correct.
+- here is a [python2.x version of the library](https://github.com/Brown-University-Library/borrowdirect.py), no longer maintained
 
 
 
@@ -154,7 +144,7 @@ bd.request_result
 
 The [MIT License](http://opensource.org/licenses/MIT) (MIT)
 
-    Copyright (c) 2015 http://library.brown.edu/its/
+    Copyright (c) 2017 https://library.brown.edu/its/
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
