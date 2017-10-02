@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import os, pprint, time
-from bdpy import BorrowDirect
+from bdpy3 import BorrowDirect
 
-""" Assumes bdpy has already been pip-installed, as per the main README.md """
+""" Assumes bdpy3 has already been pip-installed, as per the main README.md """
 
 
-print 'search example...'
+print( 'search example...' )
 search_defaults = {
     'API_URL_ROOT': unicode( os.environ['BDPY3_SAMPLE_SCRIPT__API_URL_ROOT'] ),
     'API_KEY': unicode( os.environ['BDPY3_SAMPLE_SCRIPT__API_KEY'] ),
@@ -16,14 +16,14 @@ search_defaults = {
 bd = BorrowDirect( search_defaults )
 patron_barcode = unicode( os.environ['BDPY3_SAMPLE_SCRIPT__PATRON_BARCODE'] )
 bd.run_search( patron_barcode, 'ISBN', '9780688002305' )
-print 'search_result...'; pprint.pprint( bd.search_result )
+print( 'search_result...' ); pprint.pprint( bd.search_result )
 
 
-print '---'; print ' '
+print( '---' ); print( ' ' )
 time.sleep( 1 )  # being nice to the server
 
 
-print 'request example...'
+print( 'request example...' )
 ## Will really generate request if item is requestable
 request_defaults = {
     'API_URL_ROOT': unicode( os.environ['BDPY3_SAMPLE_SCRIPT__API_URL_ROOT'] ),
@@ -34,5 +34,5 @@ request_defaults = {
     }
 bd = BorrowDirect( request_defaults )
 patron_barcode = unicode( os.environ['BDPY3_SAMPLE_SCRIPT__PATRON_BARCODE'] )
-bd.run_request_item( patron_barcode, 'ISBN', '9780688002305' )
-print 'request_result...'; pprint.pprint( bd.request_result )
+# bd.run_request_item( patron_barcode, 'ISBN', '9780688002305' )
+print( 'request_result...' ); pprint.pprint( bd.request_result )
