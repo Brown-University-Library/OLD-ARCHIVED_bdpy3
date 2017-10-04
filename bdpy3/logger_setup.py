@@ -38,4 +38,4 @@ def check_logger():
     if not logging._handlers:
         config_dct = json.loads( os.environ.get('BDPY3_LOG_CONFIG_JSON', json.dumps(DEFAULT_CONFIG_DCT)) )
         logging.config.dictConfig( config_dct )
-        return
+    return
