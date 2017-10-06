@@ -55,7 +55,7 @@ git clone, or pip install...
         >>> defaults = {
             'API_URL_ROOT': url, 'API_KEY': key, 'PARTNERSHIP_ID': id, 'UNIVERSITY_CODE': code, 'PICKUP_LOCATION': location }
         >>> bd = BorrowDirect( defaults )
-        >>> bd.run_request_item( patron_barcode, 'ISBN', '9780688002305' )
+        >>> bd.run_request_exact_item( patron_barcode, 'ISBN', '9780688002305' )
         >>> pprint( bd.request_result )
 
         {'RequestNumber': 'BRO-12345678'}

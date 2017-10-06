@@ -116,7 +116,7 @@ class BorrowDirectTests( unittest.TestCase ):
     #         'PICKUP_LOCATION': self.pickup_location,
     #         'LOG_PATH': self.LOG_PATH }
     #     bd = BorrowDirect( basics )
-    #     bd.run_request_item( self.patron_barcode, 'ISBN', self.isbn_found_and_available )
+    #     bd.run_request_exact_item( self.patron_barcode, 'ISBN', self.isbn_found_and_available )
     #     self.assertEqual(
     #         ['RequestNumber'], sorted(bd.request_result.keys()) )
     #     self.assertEqual(
@@ -133,7 +133,7 @@ class BorrowDirectTests( unittest.TestCase ):
             'PICKUP_LOCATION': self.pickup_location,
         }
         bd = BorrowDirect( basics )
-        bd.run_request_item( self.patron_barcode, 'ISBN', self.isbn_not_found )
+        bd.run_request_exact_item( self.patron_barcode, 'ISBN', self.isbn_not_found )
         self.assertEqual(
             {'Problem': {'ErrorCode': 'PUBRI003', 'ErrorMessage': 'No result'}}, bd.request_result )
 
@@ -255,7 +255,7 @@ class RequesterTests( unittest.TestCase ):
     #         NOTE: commented out because this will really request the item. """
     #     r = Requester()
     #     ( search_key, search_value ) = ( 'ISBN', self.isbn_found_and_available )
-    #     result_dct = r.request_item(
+    #     result_dct = r.request_exact_item(
     #         self.patron_barcode, search_key, search_value, self.pickup_location, self.api_url_root, self.api_key, self.partnership_id, self.university_code )
     #     self.assertEqual(
     #         ['RequestNumber'], sorted(result_dct.keys()) )
@@ -267,7 +267,7 @@ class RequesterTests( unittest.TestCase ):
             NOTE: will really attempt a request. """
         r = Requester()
         ( search_key, search_value ) = ( 'ISBN', self.isbn_not_found )
-        result_dct = r.request_item(
+        result_dct = r.request_exact_item(
             self.patron_barcode, search_key, search_value, self.pickup_location, self.api_url_root, self.api_key, self.partnership_id, self.university_code )
         self.assertEqual(
             {'Problem': {'ErrorCode': 'PUBRI003', 'ErrorMessage': 'No result'}}, result_dct )

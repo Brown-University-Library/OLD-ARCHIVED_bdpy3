@@ -13,14 +13,14 @@ logger_setup.check_logger()
 class Requester( object ):
     """ Enables easy calls to the BorrowDirect request webservice.
         BorrowDirect 'RequestItem Web Service' docs: <http://borrowdirect.pbworks.com/w/page/90133541/RequestItem%20Web%20Service> (login required)
-        Called by BorrowDirect.run_request_item() """
+        Called by BorrowDirect.run_request_exact_item() """
 
     def __init__( self ):
         self.valid_search_types = [ 'ISBN', 'ISSN', 'LCCN', 'OCLC', 'PHRASE' ]
 
-    def request_item( self, patron_barcode, search_type, search_value, pickup_location, api_url_root, api_key, partnership_id, university_code ):
+    def request_exact_item( self, patron_barcode, search_type, search_value, pickup_location, api_url_root, api_key, partnership_id, university_code ):
         """ Searches for exact key-value.
-            Called by BorrowDirect.run_request_item() """
+            Called by BorrowDirect.run_request_exact_item() """
         assert search_type in self.valid_search_types
         authorization_id = self.get_authorization_id( patron_barcode, api_url_root, api_key, partnership_id, university_code )
         params = self.build_params( partnership_id, authorization_id, pickup_location, search_type, search_value )
@@ -34,7 +34,7 @@ class Requester( object ):
 
     def get_authorization_id( self, patron_barcode, api_url_root, api_key, partnership_id, university_code ):
         """ Obtains authorization_id.
-            Called by request_item()
+            Called by request_exact_item()
             Note that only the authenticator webservice is called;
               the authorization webservice simply extends the same id's session time and so is not needed here. """
         authr = Authenticator()
@@ -44,7 +44,7 @@ class Requester( object ):
 
     def build_params( self, partnership_id, authorization_id, pickup_location, search_type, search_value ):
         """ Builds request json.
-            Called by request_item() """
+            Called by request_exact_item() """
         params = {
             'PartnershipId': partnership_id,
             'PickupLocation': pickup_location,

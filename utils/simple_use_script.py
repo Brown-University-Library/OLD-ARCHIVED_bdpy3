@@ -34,5 +34,5 @@ request_defaults = {
     }
 bd = BorrowDirect( request_defaults )
 patron_barcode = os.environ['BDPY3_SAMPLE_SCRIPT__PATRON_BARCODE']
-# bd.run_request_item( patron_barcode, 'ISBN', '9780688002305' )
+# bd.run_request_exact_item( patron_barcode, 'ISBN', '9780688002305' )
 print( 'request_result...' ); pprint.pprint( bd.request_result )
