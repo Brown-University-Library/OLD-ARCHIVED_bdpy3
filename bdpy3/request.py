@@ -16,14 +16,14 @@ class Requester( object ):
         Called by BorrowDirect.run_request_item() """
 
     def __init__( self ):
-        self.valid_search_keys = [ 'ISBN', 'ISSN', 'LCCN', 'OCLC', 'PHRASE' ]
+        self.valid_search_types = [ 'ISBN', 'ISSN', 'LCCN', 'OCLC', 'PHRASE' ]
 
-    def request_item( self, patron_barcode, search_key, search_value, pickup_location, api_url_root, api_key, partnership_id, university_code ):
+    def request_item( self, patron_barcode, search_type, search_value, pickup_location, api_url_root, api_key, partnership_id, university_code ):
         """ Searches for exact key-value.
             Called by BorrowDirect.run_request_item() """
-        assert search_key in self.valid_search_keys
+        assert search_type in self.valid_search_types
         authorization_id = self.get_authorization_id( patron_barcode, api_url_root, api_key, partnership_id, university_code )
-        params = self.build_params( partnership_id, authorization_id, pickup_location, search_key, search_value )
+        params = self.build_params( partnership_id, authorization_id, pickup_location, search_type, search_value )
         url = '%s/dws/item/add?aid=%s' % ( api_url_root, authorization_id )
         headers = { 'Content-type': 'application/json' }
         r = requests.post( url, data=json.dumps(params), headers=headers )
@@ -42,7 +42,7 @@ class Requester( object ):
             patron_barcode, api_url_root, api_key, partnership_id, university_code )
         return authorization_id
 
-    def build_params( self, partnership_id, authorization_id, pickup_location, search_key, search_value ):
+    def build_params( self, partnership_id, authorization_id, pickup_location, search_type, search_value ):
         """ Builds request json.
             Called by request_item() """
         params = {
@@ -50,7 +50,7 @@ class Requester( object ):
             'PickupLocation': pickup_location,
             'Notes': '',
             'ExactSearch': [ {
-                'Type': search_key,
+                'Type': search_type,
                 'Value': search_value
                 } ]
             }
