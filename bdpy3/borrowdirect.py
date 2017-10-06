@@ -64,7 +64,7 @@ class BorrowDirect( object ):
     def run_request_item( self, patron_barcode, search_key, search_value ):
         """ Requests an exact key-value.
             Called manually. """
-        log.debug( 'starting run_request()...' )
+        log.debug( '\n\nstarting run_request()...' )
         req = Requester()
         self.request_result = req.request_item( patron_barcode, search_key, search_value, self.PICKUP_LOCATION, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE )
         log.info( 'run_request() complete' )
