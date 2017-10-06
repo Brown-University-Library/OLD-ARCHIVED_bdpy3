@@ -16,14 +16,14 @@ class Searcher( object ):
         Called by BorrowDirect.run_search() """
 
     def __init__( self ):
-        self.valid_search_keys = [ 'ISBN', 'ISSN', 'LCCN', 'OCLC', 'PHRASE' ]
+        self.valid_search_types = [ 'ISBN', 'ISSN', 'LCCN', 'OCLC', 'PHRASE' ]
 
-    def search( self, patron_barcode, search_key, search_value, api_url_root, api_key, partnership_id, university_code ):
+    def search( self, patron_barcode, search_type, search_value, api_url_root, api_key, partnership_id, university_code ):
         """ Searches for exact key-value.
             Called by BorrowDirect.run_search() """
-        assert search_key in self.valid_search_keys
+        assert search_type in self.valid_search_types
         authorization_id = self.get_authorization_id( patron_barcode, api_url_root, api_key, university_code, partnership_id )
-        params = self.build_params( partnership_id, university_code, patron_barcode, search_key, search_value )
+        params = self.build_params( partnership_id, university_code, patron_barcode, search_type, search_value )
         url = '%s/dws/item/available?aid=%s' % ( api_url_root, authorization_id )
         headers = { 'Content-type': 'application/json' }
         r = requests.post( url, data=json.dumps(params), headers=headers )
@@ -43,13 +43,13 @@ class Searcher( object ):
             patron_barcode, api_url_root, api_key, university_code, partnership_id )
         return authorization_id
 
-    def build_params( self, partnership_id, university_code, patron_barcode, search_key, search_value ):
+    def build_params( self, partnership_id, university_code, patron_barcode, search_type, search_value ):
         """ Builds search json.
             Called by search() """
         params = {
             'PartnershipId': partnership_id,
             'ExactSearch': [ {
-                'Type': search_key, 'Value': search_value } ]
+                'Type': search_type, 'Value': search_value } ]
                 }
         log.debug( 'params, `%s`' % pprint.pformat(params) )
         return params
