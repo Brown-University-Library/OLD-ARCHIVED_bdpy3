@@ -25,7 +25,7 @@ class Authenticator( object ):
         headers = { 'Content-type': 'application/json', 'Accept': 'text/plain'}
         params = self._make_auth_params( patron_barcode, api_url, api_key, partnership_id, university_code )
         log.debug( 'params, `%s`' % pprint.pformat(params) )
-        r = requests.post( url, data=json.dumps(params), headers=headers )
+        r = requests.post( url, data=json.dumps(params), headers=headers, timeout=90 )
         log.debug( 'auth response, `%s`' % r.content.decode('utf-8') )
         authentication_id = r.json()['AuthorizationId']
         return authentication_id
@@ -45,7 +45,7 @@ class Authenticator( object ):
         """ Checks authorization and extends authentication session time.
             Called by BorrowDirect.run_auth_nz() """
         url = '%s/portal-service/user/authz/isAuthorized?aid=%s' % ( api_url, authentication_id )
-        r = requests.get( url )
+        r = requests.get( url, timeout=90 )
         dct = r.json()
         state = dct['AuthorizationState']['State']  # boolean
         assert type( state ) == bool

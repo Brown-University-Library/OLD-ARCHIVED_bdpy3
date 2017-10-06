@@ -27,7 +27,7 @@ class Requester( object ):
         params = self.build_exact_search_params( partnership_id, authorization_id, pickup_location, search_type, search_value )
         url = '%s/dws/item/add?aid=%s' % ( api_url_root, authorization_id )
         headers = { 'Content-type': 'application/json' }
-        r = requests.post( url, data=json.dumps(params), headers=headers )
+        r = requests.post( url, data=json.dumps(params), headers=headers, timeout=90 )
         log.debug( 'request r.url, `%s`' % r.url )
         log.debug( 'request r.content, `%s`' % r.content.decode('utf-8') )
         result_dct = r.json()

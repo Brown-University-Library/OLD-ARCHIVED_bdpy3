@@ -26,7 +26,7 @@ class Searcher( object ):
         params = self.build_params( partnership_id, university_code, patron_barcode, search_type, search_value )
         url = '%s/dws/item/available?aid=%s' % ( api_url_root, authorization_id )
         headers = { 'Content-type': 'application/json' }
-        r = requests.post( url, data=json.dumps(params), headers=headers )
+        r = requests.post( url, data=json.dumps(params), headers=headers, timeout=90 )
         log.debug( 'search r.url, `%s`' % r.url )
         log.debug( 'search r.content, `%s`' % r.content.decode('utf-8') )
         result_dct = r.json()
