@@ -52,22 +52,33 @@ class BorrowDirect( object ):
         log.info( 'run_auth_nz() complete' )
         return
 
-    def run_search( self, patron_barcode, search_key, search_value ):
+    def run_search( self, patron_barcode, search_type, search_value ):
         """ Searches for exact key-value.
             Called manually. """
         log.debug( 'starting run_search()...' )
         srchr = Searcher()
-        self.search_result = srchr.search( patron_barcode, search_key, search_value, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE )
+        self.search_result = srchr.search( patron_barcode, search_type, search_value, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE )
         log.info( 'run_search() complete' )
         return
 
-    def run_request_exact_item( self, patron_barcode, search_key, search_value ):
-        """ Requests an exact key-value.
+    def run_request_exact_item( self, patron_barcode, search_type, search_value ):
+        """ Runs an 'ExactSearch' query.
+            <https://relais.atlassian.net/wiki/spaces/ILL/pages/106608984/RequestItem#RequestItem-RequestItemrequestjson>
             Called manually. """
-        log.debug( '\n\nstarting run_request()...' )
+        log.debug( '\n\nstarting run_exact_item_request()...' )
         req = Requester()
-        self.request_result = req.request_exact_item( patron_barcode, search_key, search_value, self.PICKUP_LOCATION, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE )
-        log.info( 'run_request() complete' )
+        self.request_result = req.request_exact_item( patron_barcode, search_type, search_value, self.PICKUP_LOCATION, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE )
+        log.info( 'run_request_exact_item() complete' )
+        return
+
+    def run_request_bib_item( self, title, author, year ):
+        """ Runs a 'BibSearch' query.
+            <https://relais.atlassian.net/wiki/spaces/ILL/pages/106608984/RequestItem#RequestItem-RequestItemrequestjson>
+            Called manually. """
+        log.debug( '\n\nstarting run_bib_search_request()...' )
+        req = Requester()
+        self.request_result = req.request_bib_item( patron_barcode, title, author, year, self.PICKUP_LOCATION, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE )
+        log.info( 'run_request_bib_item() complete' )
         return
 
     # end class BorrowDirect
