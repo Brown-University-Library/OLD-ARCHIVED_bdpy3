@@ -86,6 +86,7 @@ class BorrowDirect( object ):
             <https://relais.atlassian.net/wiki/spaces/ILL/pages/106608984/RequestItem#RequestItem-RequestItemrequestjson>
             Called manually. """
         log.debug( '\n\nstarting run_bib_search_request()...' )
+        log.debug( 'title, ```%s```' % title )
         req = Requester()
         self.request_result = req.request_bib_item( patron_barcode, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE, self.PICKUP_LOCATION, title, author, year )
         log.info( 'run_request_bib_item() complete' )
