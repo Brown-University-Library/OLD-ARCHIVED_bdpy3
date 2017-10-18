@@ -58,4 +58,19 @@ class Requester( object ):
         log.debug( 'params, `%s`' % pprint.pformat(params) )
         return params
 
+    def build_bib_search_params( self, partnership_id, authorization_id, pickup_location, search_type, search_value ):
+        """ Builds request json.
+            Called by request_exact_item() """
+        params = {
+            'PartnershipId': partnership_id,
+            'PickupLocation': pickup_location,
+            'Notes': '',
+            'ExactSearch': [ {
+                'Type': search_type,
+                'Value': search_value
+                } ]
+            }
+        log.debug( 'params, `%s`' % pprint.pformat(params) )
+        return params
+
     ## end class Requester()

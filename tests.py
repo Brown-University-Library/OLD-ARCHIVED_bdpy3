@@ -273,12 +273,21 @@ class RequesterTests( unittest.TestCase ):
             {'Problem': {'ErrorCode': 'PUBRI003', 'ErrorMessage': 'No result'}}, result_dct )
 
     def test_build_exact_search_params( self ):
-        """ Tests for all expected params. """
+        """ Tests for all expected isbn-search params. """
         r = Requester()
         ( partnership_id, authorization_id, pickup_location, search_key, search_value ) = ( 'a', 'b', 'c', 'd', 'e' )
         params = r.build_exact_search_params( partnership_id, authorization_id, pickup_location, search_key, search_value )
         self.assertEqual(
             ['ExactSearch', 'Notes', 'PartnershipId', 'PickupLocation'],
+            sorted(params.keys()) )
+
+    def test_build_bib_search_params( self ):
+        """ Tests for all expected bib-search params. """
+        r = Requester()
+        ( foo, bar, pickup_location, search_key, search_value ) = ( 'a', 'b' )
+        params = r.build_exact_search_params( partnership_id, authorization_id, pickup_location, search_key, search_value )
+        self.assertEqual(
+            ['aaa', 'bbb'],
             sorted(params.keys()) )
 
     # end class RequesterTests
