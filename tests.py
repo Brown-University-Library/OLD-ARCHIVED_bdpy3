@@ -105,7 +105,7 @@ class BorrowDirectTests( unittest.TestCase ):
         self.assertEqual(
             {"Problem":{"ErrorCode":"PUBFI002","ErrorMessage":"No result"}}, bd.search_result )
 
-    # def test_run_request_item__found_and_available(self):
+    # def test_run_request_exact_item__found_and_available(self):
     #     """ Tests manager requesting.
     #         Commented out because it'll really request the item. """
     #     basics = {
@@ -122,9 +122,9 @@ class BorrowDirectTests( unittest.TestCase ):
     #     self.assertEqual(
     #         'BRO-', bd.request_result['RequestNumber'][0:4] )
 
-    def test_run_request_item__not_found(self):
-        """ Tests manager requesting on not-found item.
-            Note that this will really attempt the request. """
+    def test_run_request_exact_item__not_found(self):
+        """ Tests manager exact-item requesting on not-found item.
+            NOTE THAT THIS WILL REALLY ATTEMPT THE REQUEST. """
         basics = {
             'API_URL_ROOT': self.api_url_root,
             'API_KEY': self.api_key,
@@ -136,6 +136,24 @@ class BorrowDirectTests( unittest.TestCase ):
         bd.run_request_exact_item( self.patron_barcode, 'ISBN', self.isbn_not_found )
         self.assertEqual(
             {'Problem': {'ErrorCode': 'PUBRI003', 'ErrorMessage': 'No result'}}, bd.request_result )
+
+
+
+    # def test_run_request_bib_item(self):
+    #     """ Tests manager bib-item requesting.
+    #         NOTE THAT THIS WILL REALLY ATTEMPT THE REQUEST. """
+    #     basics = {
+    #         'API_URL_ROOT': self.api_url_root,
+    #         'API_KEY': self.api_key,
+    #         'PARTNERSHIP_ID': self.partnership_id,
+    #         'UNIVERSITY_CODE': self.university_code,
+    #         'PICKUP_LOCATION': self.pickup_location,
+    #     }
+    #     bd = BorrowDirect( basics )
+    #     ( title, author, year ) = ( 'Zen and the art of motorcycle maintenance - an inquiry into values', 'Pirsig, Robert M', '1974' )
+    #     bd.run_request_bib_item( self.patron_barcode, title, author, year )
+    #     self.assertEqual(
+    #         {'Problem': {'ErrorCode': 'PUBRI003', 'ErrorMessage': 'zNo result'}}, bd.request_result )
 
     # end class BorrowDirectTests
 
