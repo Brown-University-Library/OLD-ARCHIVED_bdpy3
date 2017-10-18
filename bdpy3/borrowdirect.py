@@ -81,13 +81,13 @@ class BorrowDirect( object ):
         log.info( 'run_request_exact_item() complete' )
         return
 
-    def run_request_bib_item( self, title, author, year ):
+    def run_request_bib_item( self, patron_barcode, title, author, year ):
         """ Runs a 'BibSearch' query.
             <https://relais.atlassian.net/wiki/spaces/ILL/pages/106608984/RequestItem#RequestItem-RequestItemrequestjson>
             Called manually. """
         log.debug( '\n\nstarting run_bib_search_request()...' )
         req = Requester()
-        self.request_result = req.request_bib_item( patron_barcode, title, author, year, self.PICKUP_LOCATION, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE )
+        self.request_result = req.request_bib_item( patron_barcode, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE, self.PICKUP_LOCATION, title, author, year )
         log.info( 'run_request_bib_item() complete' )
         return
 
