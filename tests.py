@@ -268,7 +268,7 @@ class RequesterTests( unittest.TestCase ):
         r = Requester()
         ( search_key, search_value ) = ( 'ISBN', self.isbn_not_found )
         result_dct = r.request_exact_item(
-            self.patron_barcode, search_key, search_value, self.pickup_location, self.api_url_root, self.api_key, self.partnership_id, self.university_code )
+            self.patron_barcode, self.api_url_root, self.api_key, self.partnership_id, self.university_code, self.pickup_location, search_key, search_value )
         self.assertEqual(
             {'Problem': {'ErrorCode': 'PUBRI003', 'ErrorMessage': 'No result'}}, result_dct )
 

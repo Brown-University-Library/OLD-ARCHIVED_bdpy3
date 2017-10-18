@@ -22,6 +22,7 @@ class Requester( object ):
         """ Runs an 'ExactSearch' query.
             <https://relais.atlassian.net/wiki/spaces/ILL/pages/106608984/RequestItem#RequestItem-RequestItemrequestjson>
             Called by BorrowDirect.run_request_exact_item() """
+        log.info( '\n\nstarting exact item request' )
         assert search_type in self.valid_search_types
         authorization_id = self.get_authorization_id( patron_barcode, api_url_root, api_key, partnership_id, university_code )
         params = self.build_exact_search_params( partnership_id, authorization_id, pickup_location, search_type, search_value )
