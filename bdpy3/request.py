@@ -18,13 +18,27 @@ class Requester( object ):
     def __init__( self ):
         self.valid_search_types = [ 'ISBN', 'ISSN', 'LCCN', 'OCLC', 'PHRASE' ]
 
-    def request_exact_item( self, patron_barcode, search_type, search_value, pickup_location, api_url_root, api_key, partnership_id, university_code ):
+    def request_exact_item( self, patron_barcode, api_url_root, api_key, partnership_id, university_code, pickup_location, search_type, search_value ):
         """ Runs an 'ExactSearch' query.
             <https://relais.atlassian.net/wiki/spaces/ILL/pages/106608984/RequestItem#RequestItem-RequestItemrequestjson>
             Called by BorrowDirect.run_request_exact_item() """
         assert search_type in self.valid_search_types
         authorization_id = self.get_authorization_id( patron_barcode, api_url_root, api_key, partnership_id, university_code )
         params = self.build_exact_search_params( partnership_id, authorization_id, pickup_location, search_type, search_value )
+        url = '%s/dws/item/add?aid=%s' % ( api_url_root, authorization_id )
+        headers = { 'Content-type': 'application/json' }
+        r = requests.post( url, data=json.dumps(params), headers=headers, timeout=90 )
+        log.debug( 'request r.url, `%s`' % r.url )
+        log.debug( 'request r.content, `%s`' % r.content.decode('utf-8') )
+        result_dct = r.json()
+        return result_dct
+
+    def request_bib_item( self, patron_barcode, api_url_root, api_key, partnership_id, university_code, pickup_location, title, author, year, format ):
+        """ Runs a 'BibSearch' query.
+            <https://relais.atlassian.net/wiki/spaces/ILL/pages/106608984/RequestItem#RequestItem-RequestItemrequestjson>
+            Called by BorrowDirect.run_request_bib_item() """
+        authorization_id = self.get_authorization_id( patron_barcode, api_url_root, api_key, partnership_id, university_code )
+        params = self.build_bib_search_params( partnership_id, authorization_id, pickup_location, title, author, year, format )
         url = '%s/dws/item/add?aid=%s' % ( api_url_root, authorization_id )
         headers = { 'Content-type': 'application/json' }
         r = requests.post( url, data=json.dumps(params), headers=headers, timeout=90 )
