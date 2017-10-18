@@ -81,9 +81,8 @@ class Requester( object ):
         params = {
             'PartnershipId': partnership_id,
             'PickupLocation': pickup_location,
-            'Notes': '',
             'BibSearch': {
-                'Title': title,
+                'TitlePhrase': title,
                 'Author': author
                 },
             'ResultFilter': {
@@ -93,7 +92,8 @@ class Requester( object ):
                 }
             }
         }
-        log.debug( 'params, `%s`' % pprint.pformat(params) )
+        log.debug( 'params, ```%s```' % params )
+        log.debug( 'json would be, ```%s```' % json.dumps(params) )
         return params
 
     ## end class Requester()

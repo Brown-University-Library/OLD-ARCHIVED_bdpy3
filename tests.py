@@ -137,24 +137,22 @@ class BorrowDirectTests( unittest.TestCase ):
         self.assertEqual(
             {'Problem': {'ErrorCode': 'PUBRI003', 'ErrorMessage': 'No result'}}, bd.request_result )
 
-
-
-    def test_run_request_bib_item(self):
-        """ Tests manager bib-item requesting.
-            NOTE THAT THIS WILL REALLY ATTEMPT THE REQUEST. """
-        basics = {
-            'API_URL_ROOT': self.api_url_root,
-            'API_KEY': self.api_key,
-            'PARTNERSHIP_ID': self.partnership_id,
-            'UNIVERSITY_CODE': self.university_code,
-            'PICKUP_LOCATION': self.pickup_location,
-        }
-        bd = BorrowDirect( basics )
-        ( title, author, year ) = ( 'Zen and the art of motorcycle maintenance - an inquiry into values', 'Pirsig, Robert M', '1974' )
-        log.debug( 'title, ```%s```' % title )
-        bd.run_request_bib_item( self.patron_barcode, title, author, year )
-        self.assertEqual(
-            {'Problem': {'ErrorCode': 'PUBRI003', 'ErrorMessage': 'zNo result'}}, bd.request_result )
+    # def test_run_request_bib_item(self):
+    #     """ Tests manager bib-item requesting.
+    #         NOTE THAT THIS WILL REALLY ATTEMPT THE REQUEST. """
+    #     basics = {
+    #         'API_URL_ROOT': self.api_url_root,
+    #         'API_KEY': self.api_key,
+    #         'PARTNERSHIP_ID': self.partnership_id,
+    #         'UNIVERSITY_CODE': self.university_code,
+    #         'PICKUP_LOCATION': self.pickup_location,
+    #     }
+    #     bd = BorrowDirect( basics )
+    #     ( title, author, year ) = ( 'Zen and the art of motorcycle maintenance - an inquiry into values', ['Pirsig, Robert M'], '1974' )
+    #     log.debug( 'title, ```%s```' % title )
+    #     bd.run_request_bib_item( self.patron_barcode, title, author, year )
+    #     self.assertEqual(
+    #         {'RequestNumber': 'BRO-11796653'}, bd.request_result )
 
     # end class BorrowDirectTests
 
@@ -294,7 +292,7 @@ class RequesterTests( unittest.TestCase ):
     def test_build_exact_search_params( self ):
         """ Tests for all expected isbn-search params. """
         r = Requester()
-        ( partnership_id, pickup_location, search_key, search_value ) = ( 'a', 'b', 'c', 'd', 'e' )
+        ( partnership_id, pickup_location, search_key, search_value ) = ( 'a', 'b', 'c', 'd' )
         params = r.build_exact_search_params( partnership_id, pickup_location, search_key, search_value )
         self.assertEqual(
             ['ExactSearch', 'Notes', 'PartnershipId', 'PickupLocation'],
@@ -303,7 +301,8 @@ class RequesterTests( unittest.TestCase ):
     def test_build_bib_search_params( self ):
         """ Tests for all expected bib-search params. """
         r = Requester()
-        ( partnership_id, pickup_location, title, author, year ) = ( 'a', 'b', 'Zen and the art of motorcycle maintenance - an inquiry into values', 'd', 'e' )
+        # ( partnership_id, pickup_location, title, author, year ) = ( 'a', 'b', 'Zen and the art of motorcycle maintenance - an inquiry into values', 'd', 'e' )
+        ( partnership_id, pickup_location, title, author, year ) = ( 'a', 'b', '_title_ two three four five six seven eight nine ten eleven twelve thirteen', '_author_ two three four five six seven eight nine ten eleven twelve thirteen', 'e' )
         params = r.build_bib_search_params( partnership_id, pickup_location, title, author, year )
         self.assertEqual(
             ['BibSearch', 'Notes', 'PartnershipId', 'PickupLocation', 'ResultFilter'],
