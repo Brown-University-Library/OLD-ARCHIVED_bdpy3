@@ -53,7 +53,7 @@ class Requester( object ):
             'ExactSearch': [ {
                 'Type': search_type,
                 'Value': search_value
-                } ]`
+                } ]
             }
         log.debug( 'params, `%s`' % pprint.pformat(params) )
         return params
