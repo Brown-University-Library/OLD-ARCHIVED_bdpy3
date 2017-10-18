@@ -284,10 +284,10 @@ class RequesterTests( unittest.TestCase ):
     def test_build_bib_search_params( self ):
         """ Tests for all expected bib-search params. """
         r = Requester()
-        ( foo, bar, pickup_location, search_key, search_value ) = ( 'a', 'b' )
-        params = r.build_exact_search_params( partnership_id, authorization_id, pickup_location, search_key, search_value )
+        ( partnership_id, authorization_id, pickup_location, title, author, year, format ) = ( 'a', 'b', 'c', 'd', 'e', 'f', 'g' )
+        params = r.build_bib_search_params( partnership_id, authorization_id, pickup_location, title, author, year, format )
         self.assertEqual(
-            ['aaa', 'bbb'],
+            ['BibSearch', 'Notes', 'PartnershipId', 'PickupLocation', 'ResultFilter'],
             sorted(params.keys()) )
 
     # end class RequesterTests
