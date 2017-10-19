@@ -33,6 +33,24 @@ class Searcher( object ):
         result_dct = r.json()
         return result_dct
 
+
+
+    def search_bib_item( self, patron_barcode, api_url_root, api_key, partnership_id, university_code, title, author, year ):
+        """ Searches for exact key-value.
+            Called by BorrowDirect.run_search() """
+        authorization_id = self.get_authorization_id( patron_barcode, api_url_root, api_key, partnership_id, university_code )
+        params = self.build_bib_item_params( partnership_id, university_code, title, author, year )
+        url = '%s/dws/item/available?aid=%s' % ( api_url_root, authorization_id )
+        headers = { 'Content-type': 'application/json' }
+        r = requests.post( url, data=json.dumps(params), headers=headers, timeout=90 )
+        log.debug( 'search r.url, `%s`' % r.url )
+        log.debug( 'search r.content, `%s`' % r.content.decode('utf-8') )
+        result_dct = r.json()
+        log.debug( 'result_dct, ```%s```' % pprint.pformat(result_dct) )
+        return result_dct
+
+
+
     def get_authorization_id( self, patron_barcode, api_url_root, api_key, partnership_id, university_code ):
         """ Obtains authorization_id.
             Called by search()
@@ -54,5 +72,21 @@ class Searcher( object ):
                 }
         log.debug( 'params, `%s`' % pprint.pformat(params) )
         return params
+
+
+
+    def build_bib_item_params( self, partnership_id, university_code, title, author, year ):
+        """ Builds search json.
+            Called by search() """
+        params = {
+            'PartnershipId': partnership_id,
+            'BibSearch': { 'TitlePhrase': title, 'Author': author },
+            'ResultFilter': {
+                'Include': { 'PublicationDate': [year], 'Format': ['Book'] }
+            }
+        }
+        log.debug( 'params, `%s`' % pprint.pformat(params) )
+        return params
+
 
     # end class Searcher

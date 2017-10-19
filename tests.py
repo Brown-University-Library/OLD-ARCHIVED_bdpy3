@@ -207,7 +207,35 @@ class SearcherTests( unittest.TestCase ):
         self.isbn_not_found = os.environ['BDPY3_TEST__ISBN_NOT_FOUND']
         # self.isbn_available_locally = os.environ['BDPY3_TEST__ISBN_AVAILABLE_LOCALLY']  # TODO
 
-    def test_search_found_available(self):
+    def test_search_bib_item_found_available(self):
+        """ Tests bib item search for available found item.
+            Example json response:
+                {
+                  "Available": true,
+                  "OrigNumberOfRecords": 7,
+                  "PickupLocation": [
+                    {
+                      "PickupLocationCode": "A",
+                      "PickupLocationDescription": "Rockefeller Library"
+                    }
+                  ],
+                  "RequestLink": {
+                    "ButtonLabel": "Request",
+                    "ButtonLink": "AddRequest",
+                    "RequestMessage": "Request this through Borrow Direct."
+                  }
+                }
+                """
+        s = Searcher()
+        ( title, author, year ) = ( 'Zen and the art of motorcycle maintenance - an inquiry into values', ['Pirsig, Robert M'], '1974' )
+        result_dct = s.search_bib_item(
+            self.patron_barcode, self.api_url_root, self.api_key, self.partnership_id, self.university_code, title, author, year )
+        self.assertEqual(
+            ['Available', 'OrigNumberOfRecords', 'PickupLocation', 'RequestLink'], sorted(result_dct.keys()) )
+        self.assertEqual(
+            True, result_dct['Available'] )
+
+    def test_search_exact_item_found_available(self):
         """ Tests basic isbn search for available found item. """
         s = Searcher()
         ( search_key, search_value ) = ( 'ISBN', self.isbn_found_and_available )
@@ -218,7 +246,7 @@ class SearcherTests( unittest.TestCase ):
         self.assertEqual(
             True, result_dct['Available'] )
 
-    def test_search_found_unavailable(self):
+    def test_search_exact_item_found_unavailable(self):
         """ Tests basic isbn search for unavailable found item. """
         s = Searcher()
         ( search_key, search_value ) = ( 'ISBN', self.isbn_found_and_unavailable )
@@ -229,7 +257,7 @@ class SearcherTests( unittest.TestCase ):
         self.assertEqual(
             False, result_dct['Available'] )
 
-    def test_search_not_found(self):
+    def test_search_exact_item_not_found(self):
         """ Tests basic isbn search for not-found item. """
         s = Searcher()
         ( search_key, search_value ) = ( 'ISBN', self.isbn_not_found )
@@ -239,7 +267,7 @@ class SearcherTests( unittest.TestCase ):
             {"Problem":{"ErrorCode":"PUBFI002","ErrorMessage":"No result"}}, result_dct )
 
     ## TODO
-    # def test_search_item_available_locally(self):
+    # def test_search_exact_item_available_locally(self):
     #     """ Tests basic isbn search for item that is available locally. """
     #     s = Searcher()
     #     ( search_key, search_value ) = ( 'ISBN', self.isbn_available_locally )
