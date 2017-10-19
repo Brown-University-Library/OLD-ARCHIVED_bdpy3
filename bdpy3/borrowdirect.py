@@ -61,16 +61,6 @@ class BorrowDirect( object ):
         log.info( 'run_search() complete' )
         return
 
-    # def run_request_exact_item( self, patron_barcode, search_type, search_value ):
-    #     """ Runs an 'ExactSearch' query.
-    #         <https://relais.atlassian.net/wiki/spaces/ILL/pages/106608984/RequestItem#RequestItem-RequestItemrequestjson>
-    #         Called manually. """
-    #     log.debug( '\n\nstarting run_exact_item_request()...' )
-    #     req = Requester()
-    #     self.request_result = req.request_exact_item( patron_barcode, search_type, search_value, self.PICKUP_LOCATION, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE )
-    #     log.info( 'run_request_exact_item() complete' )
-    #     return
-
     def run_request_exact_item( self, patron_barcode, search_type, search_value ):
         """ Runs an 'ExactSearch' query.
             <https://relais.atlassian.net/wiki/spaces/ILL/pages/106608984/RequestItem#RequestItem-RequestItemrequestjson>
@@ -92,7 +82,7 @@ class BorrowDirect( object ):
         log.info( 'run_request_bib_item() complete' )
         return
 
-    # end class BorrowDirect
+    ## end class BorrowDirect
 
 
 class BorrowDirectHelper( object ):
@@ -140,4 +130,4 @@ class BorrowDirectHelper( object ):
             bd_instance.logger = logging.getLogger(__name__)
         return
 
-    # end class BorrowDirectHelper
+    ## end class BorrowDirectHelper
