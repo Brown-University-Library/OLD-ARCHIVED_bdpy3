@@ -152,7 +152,7 @@ class BorrowDirectTests( unittest.TestCase ):
     #     log.debug( 'title, ```%s```' % title )
     #     bd.run_request_bib_item( self.patron_barcode, title, author, year )
     #     self.assertEqual(
-    #         {'RequestNumber': 'BRO-11796653'}, bd.request_result )
+    #         {'RequestNumber': 'BRO-12345678'}, bd.request_result )
 
     # end class BorrowDirectTests
 
@@ -301,11 +301,10 @@ class RequesterTests( unittest.TestCase ):
     def test_build_bib_search_params( self ):
         """ Tests for all expected bib-search params. """
         r = Requester()
-        # ( partnership_id, pickup_location, title, author, year ) = ( 'a', 'b', 'Zen and the art of motorcycle maintenance - an inquiry into values', 'd', 'e' )
-        ( partnership_id, pickup_location, title, author, year ) = ( 'a', 'b', '_title_ two three four five six seven eight nine ten eleven twelve thirteen', '_author_ two three four five six seven eight nine ten eleven twelve thirteen', 'e' )
+        ( partnership_id, pickup_location, title, author, year ) = ( 'a', 'b', 'c', 'd', 'e' )
         params = r.build_bib_search_params( partnership_id, pickup_location, title, author, year )
         self.assertEqual(
-            ['BibSearch', 'Notes', 'PartnershipId', 'PickupLocation', 'ResultFilter'],
+            ['BibSearch', 'PartnershipId', 'PickupLocation', 'ResultFilter'],
             sorted(params.keys()) )
 
     # end class RequesterTests
