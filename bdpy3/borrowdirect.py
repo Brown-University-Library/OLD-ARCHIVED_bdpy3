@@ -62,8 +62,6 @@ class BorrowDirect( object ):
         log.info( 'run_search_exact_item() complete' )
         return
 
-
-
     def run_search_bib_item( self, patron_barcode, title, author, year ):
         """ Searches for bib item.
             Called manually. """
@@ -73,8 +71,6 @@ class BorrowDirect( object ):
         log.debug( 'search_result, ```%s```' % pprint.pformat(self.search_result) )
         log.info( 'run_search_bib_item() complete' )
         return
-
-
 
     def run_request_exact_item( self, patron_barcode, search_type, search_value ):
         """ Runs an 'ExactSearch' query.
