@@ -52,12 +52,12 @@ class BorrowDirect( object ):
         log.info( 'run_auth_nz() complete' )
         return
 
-    def run_search( self, patron_barcode, search_type, search_value ):
+    def run_search_exact_item( self, patron_barcode, search_type, search_value ):
         """ Searches for exact key-value.
             Called manually. """
         log.debug( 'starting run_search()...' )
         srchr = Searcher()
-        self.search_result = srchr.search( patron_barcode, search_type, search_value, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE )
+        self.search_result = srchr.search_exact_item( patron_barcode, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE, search_type, search_value )
         log.info( 'run_search() complete' )
         return
 
