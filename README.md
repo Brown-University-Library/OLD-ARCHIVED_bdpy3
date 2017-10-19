@@ -1,7 +1,3 @@
-UNDER DEVELOPMENT
-=================
-
-
 ### about ###
 
 'bdpy3' is a python3 library that faciliates programmatic access to the API to [BorrowDirect](http://www.borrowdirect.org), an academic book-borrowing consortium.
