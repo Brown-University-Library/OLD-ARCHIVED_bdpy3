@@ -66,7 +66,7 @@ class BorrowDirectTests( unittest.TestCase ):
         self.assertEqual(
             True, bd.authnz_valid )
 
-    def test_run_search__found_and_available(self):
+    def test_run_search_exact_item__found_and_available(self):
         """ Tests search for item found and available. """
         basics = {
             'API_URL_ROOT': self.api_url_root,
@@ -79,7 +79,7 @@ class BorrowDirectTests( unittest.TestCase ):
         self.assertEqual( ['Available', 'OrigNumberOfRecords', 'PickupLocation', 'RequestLink'], sorted(bd.search_result.keys()) )
         self.assertEqual( True, bd.search_result['Available'] )
 
-    def test_run_search__found_and_unavailable(self):
+    def test_run_search_exact_item__found_and_unavailable(self):
         """ Tests search for item found and unavailable. """
         basics = {
             'API_URL_ROOT': self.api_url_root,
@@ -92,7 +92,7 @@ class BorrowDirectTests( unittest.TestCase ):
         self.assertEqual( ['Available', 'OrigNumberOfRecords', 'RequestLink'], sorted(bd.search_result.keys()) )
         self.assertEqual( False, bd.search_result['Available'] )
 
-    def test_run_search__not_found(self):
+    def test_run_search_exact_item__not_found(self):
         """ Tests search for item not found. """
         basics = {
             'API_URL_ROOT': self.api_url_root,
@@ -121,6 +121,23 @@ class BorrowDirectTests( unittest.TestCase ):
     #         ['RequestNumber'], sorted(bd.request_result.keys()) )
     #     self.assertEqual(
     #         'BRO-', bd.request_result['RequestNumber'][0:4] )
+
+
+    def test_run_search_bib_item__found_and_available(self):
+        """ Tests search for item found and available. """
+        basics = {
+            'API_URL_ROOT': self.api_url_root,
+            'API_KEY': self.api_key,
+            'PARTNERSHIP_ID': self.partnership_id,
+            'UNIVERSITY_CODE': self.university_code,
+        }
+        bd = BorrowDirect( basics )
+        ( title, author, year ) = ( 'Zen and the art of motorcycle maintenance - an inquiry into values', ['Pirsig, Robert M'], '1974' )
+        bd.run_search_bib_item( self.patron_barcode, title, author, year )
+        self.assertEqual( ['Available', 'OrigNumberOfRecords', 'PickupLocation', 'RequestLink'], sorted(bd.search_result.keys()) )
+        self.assertEqual( True, bd.search_result['Available'] )
+
+
 
     def test_run_request_exact_item__not_found(self):
         """ Tests manager exact-item requesting on not-found item.

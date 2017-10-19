@@ -55,11 +55,24 @@ class BorrowDirect( object ):
     def run_search_exact_item( self, patron_barcode, search_type, search_value ):
         """ Searches for exact key-value.
             Called manually. """
-        log.debug( 'starting run_search()...' )
+        log.debug( '\n\nstarting run_search_exact_item()...' )
         srchr = Searcher()
         self.search_result = srchr.search_exact_item( patron_barcode, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE, search_type, search_value )
-        log.info( 'run_search() complete' )
+        log.info( 'run_search_exact_item() complete' )
         return
+
+
+
+    def run_search_bib_item( self, patron_barcode, title, author, year ):
+        """ Searches for bib item.
+            Called manually. """
+        log.debug( '\n\nstarting run_search_bib_item()...' )
+        srchr = Searcher()
+        self.search_result = srchr.search_bib_item( patron_barcode, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE, title, author, year )
+        log.info( 'run_search_bib_item() complete' )
+        return
+
+
 
     def run_request_exact_item( self, patron_barcode, search_type, search_value ):
         """ Runs an 'ExactSearch' query.
