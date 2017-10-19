@@ -30,7 +30,7 @@ git clone, or pip install...
 
 
 
-### common usage ###
+### common usage - search ###
 
 - search:
 
@@ -49,7 +49,9 @@ git clone, or pip install...
                          'RequestMessage': 'Request this through Borrow Direct.'}}
 
 
-- or request:
+### common usage - request ###
+
+- request via exact-item:
 
         >>> from bdpy3 import BorrowDirect
         >>> defaults = {
@@ -60,54 +62,65 @@ git clone, or pip install...
 
         {'RequestNumber': 'BRO-12345678'}
 
+- request via bib item:
+
+        >>> from bdpy3 import BorrowDirect
+        >>> defaults = {
+            'API_URL_ROOT': url, 'API_KEY': key, 'PARTNERSHIP_ID': id, 'UNIVERSITY_CODE': code, 'PICKUP_LOCATION': location }
+        >>> bd = BorrowDirect( defaults )
+        >>> ( title, author, year ) = ( 'Zen and the art of motorcycle maintenance - an inquiry into values', ['Pirsig, Robert M'], '1974' )
+        >>> bd.run_request_bib_item( patron_barcode, title, author, year )
+        >>> pprint( bd.request_result )
+
+        {'RequestNumber': 'BRO-12345678'}
 
 
 ### possible responses ###
 
-bd.search_result
+- bd.search_result
 
-    ## if found and available via borrowdirect...
-    {'Available': True,
-     'PickupLocation': [{'PickupLocationCode': 'A',
-                         'PickupLocationDescription': 'Rockefeller Library'}],
-     'RequestLink': {'ButtonLabel': 'Request',
-                     'ButtonLink': 'AddRequest',
-                     'RequestMessage': 'Request this through Borrow Direct.'},
-     'SearchTerm': 'isbn=9780688002305'}
+        ## if found and available via borrowdirect...
+        {'Available': True,
+         'PickupLocation': [{'PickupLocationCode': 'A',
+                             'PickupLocationDescription': 'Rockefeller Library'}],
+         'RequestLink': {'ButtonLabel': 'Request',
+                         'ButtonLink': 'AddRequest',
+                         'RequestMessage': 'Request this through Borrow Direct.'},
+         'SearchTerm': 'isbn=9780688002305'}
 
-    ## found but held locally...
-    {'Available': False,
-     'RequestLink': {'ButtonLabel': 'View in the BROWN Library Catalog.',
-                     'ButtonLink': 'http://josiah.brown.edu/record=.b18151139a',
-                     'RequestMessage': 'This item is available locally.'}
+        ## found but held locally...
+        {'Available': False,
+         'RequestLink': {'ButtonLabel': 'View in the BROWN Library Catalog.',
+                         'ButtonLink': 'http://josiah.brown.edu/record=.b18151139a',
+                         'RequestMessage': 'This item is available locally.'}
 
-    ## found but not available
-    {'Available': False,
-    'RequestLink': {'ButtonLabel': 'Request',
-                   'ButtonLink': 'https://illiad.brown.edu/illiad/illiad.dll/OpenURL?genre=Book&sid=BD&HeldLocally=N&rft.title=The%20body%20and%20society&rft.aufirst=Peter%20Robert%20Lamont&rft.aulast=Brown&rft.edition=Twentieth%20anniversary%20ed.%20with%20a%20new%20introduction&rft.date=c2008&rft.isbn=9780231144063%20%28cloth%20%3A%20alk.%20paper%20%3A%20alk.%20paper%29&rft.isbn=9780231144070%20%28pbk.%20%3A%20alk.%20paper%20%3A%20alk.%20paper%29&rft.dat=195747707&rft.pub=Columbia%20University%20Press&rft.place=New%20York',
-                   'RequestMessage': 'Place an interlibrary loan request via ILLiad.'},
-    'SearchTerm': 'isbn=9780231144063'}
+        ## found but not available
+        {'Available': False,
+        'RequestLink': {'ButtonLabel': 'Request',
+                       'ButtonLink': 'https://illiad.brown.edu/illiad/illiad.dll/OpenURL?genre=Book&sid=BD&HeldLocally=N&rft.title=The%20body%20and%20society&rft.aufirst=Peter%20Robert%20Lamont&rft.aulast=Brown&rft.edition=Twentieth%20anniversary%20ed.%20with%20a%20new%20introduction&rft.date=c2008&rft.isbn=9780231144063%20%28cloth%20%3A%20alk.%20paper%20%3A%20alk.%20paper%29&rft.isbn=9780231144070%20%28pbk.%20%3A%20alk.%20paper%20%3A%20alk.%20paper%29&rft.dat=195747707&rft.pub=Columbia%20University%20Press&rft.place=New%20York',
+                       'RequestMessage': 'Place an interlibrary loan request via ILLiad.'},
+        'SearchTerm': 'isbn=9780231144063'}
 
-    ## if not found
-    {"Problem":{"ErrorCode":"PUBFI002","ErrorMessage":"No result"}}
+        ## if not found
+        {"Problem":{"ErrorCode":"PUBFI002","ErrorMessage":"No result"}}
 
-bd.request_result
+- bd.request_result
 
-    ## if found and available via borrowdirect...
-    {'RequestNumber': 'BRO-12345678'}
+        ## if found and available via borrowdirect...
+        {'RequestNumber': 'BRO-12345678'}
 
-    ## found but held locally...
-    {'RequestLink': {'ButtonLabel': 'View in the BROWN Library Catalog.',
-                     'ButtonLink': 'http://josiah.brown.edu/record=.b18151139a',
-                     'RequestMessage': 'This item is available locally.'}}
+        ## found but held locally...
+        {'RequestLink': {'ButtonLabel': 'View in the BROWN Library Catalog.',
+                         'ButtonLink': 'http://josiah.brown.edu/record=.b18151139a',
+                         'RequestMessage': 'This item is available locally.'}}
 
-    ## found but not available
-    {'RequestLink': {'ButtonLabel': 'Request',
-                      'ButtonLink': 'https://illiad.brown.edu/illiad/illiad.dll/OpenURL?genre=Book&sid=BD&HeldLocally=N&rft.title=The%20body%20and%20society&rft.aufirst=Peter%20Robert%20Lamont&rft.aulast=Brown&rft.edition=Twentieth%20anniversary%20ed.%20with%20a%20new%20introduction&rft.date=c2008&rft.isbn=9780231144063%20%28cloth%20%3A%20alk.%20paper%20%3A%20alk.%20paper%29&rft.isbn=9780231144070%20%28pbk.%20%3A%20alk.%20paper%20%3A%20alk.%20paper%29&rft.dat=195747707&rft.pub=Columbia%20University%20Press&rft.place=New%20York',
-                      'RequestMessage': 'Place an interlibrary loan request via ILLiad.'}}
+        ## found but not available
+        {'RequestLink': {'ButtonLabel': 'Request',
+                          'ButtonLink': 'https://illiad.brown.edu/illiad/illiad.dll/OpenURL?genre=Book&sid=BD&HeldLocally=N&rft.title=The%20body%20and%20society&rft.aufirst=Peter%20Robert%20Lamont&rft.aulast=Brown&rft.edition=Twentieth%20anniversary%20ed.%20with%20a%20new%20introduction&rft.date=c2008&rft.isbn=9780231144063%20%28cloth%20%3A%20alk.%20paper%20%3A%20alk.%20paper%29&rft.isbn=9780231144070%20%28pbk.%20%3A%20alk.%20paper%20%3A%20alk.%20paper%29&rft.dat=195747707&rft.pub=Columbia%20University%20Press&rft.place=New%20York',
+                          'RequestMessage': 'Place an interlibrary loan request via ILLiad.'}}
 
-    ## if not found
-    {u'Problem': {u'ErrorCode': u'PUBRI003', u'ErrorMessage': u'No result'}}
+        ## if not found
+        {u'Problem': {u'ErrorCode': u'PUBRI003', u'ErrorMessage': u'No result'}}
 
 
 
@@ -136,7 +149,7 @@ bd.request_result
 
 - for a ruby library, see [jonathan rochkind's](https://github.com/jrochkind) comprehensive and well-tested [borrowdirect-api wrapper](https://github.com/jrochkind/borrow_direct)
 
-- here is a [python2.x version of the library](https://github.com/Brown-University-Library/borrowdirect.py), no longer maintained
+- here is a [python2.x version of the library](https://github.com/Brown-University-Library/borrowdirect.py), no longer maintained (it does not search or request on title/author/date)
 
 ---
 
