@@ -38,7 +38,7 @@ class Requester( object ):
         """ Runs a 'BibSearch' query.
             <https://relais.atlassian.net/wiki/spaces/ILL/pages/106608984/RequestItem#RequestItem-RequestItemrequestjson>
             Called by BorrowDirect.run_request_bib_item() """
-        log.debug( 'title, ```%s```' % title )
+        log.info( '\n\nstarting bib item request' )
         authorization_id = self.get_authorization_id( patron_barcode, api_url_root, api_key, partnership_id, university_code )
         params = self.build_bib_search_params( partnership_id, pickup_location, title, author, year )
         url = '%s/dws/item/add?aid=%s' % ( api_url_root, authorization_id )
@@ -66,10 +66,7 @@ class Requester( object ):
             'PartnershipId': partnership_id,
             'PickupLocation': pickup_location,
             'Notes': '',
-            'ExactSearch': [ {
-                'Type': search_type,
-                'Value': search_value
-            } ]
+            'ExactSearch': [ {'Type': search_type, 'Value': search_value } ]
         }
         log.debug( 'params, `%s`' % pprint.pformat(params) )
         return params
@@ -77,19 +74,12 @@ class Requester( object ):
     def build_bib_search_params( self, partnership_id, pickup_location, title, author, year ):
         """ Builds request json.
             Called by request_bib_item() """
-        log.debug( 'title, ```%s```' % title )
         params = {
             'PartnershipId': partnership_id,
             'PickupLocation': pickup_location,
-            'BibSearch': {
-                'TitlePhrase': title,
-                'Author': author
-                },
+            'BibSearch': { 'TitlePhrase': title, 'Author': author },
             'ResultFilter': {
-                'Include': {
-                    'PublicationDate': [year],
-                    'Format': ['Book']
-                }
+                'Include': { 'PublicationDate': [year], 'Format': ['Book'] }
             }
         }
         log.debug( 'params, ```%s```' % params )
