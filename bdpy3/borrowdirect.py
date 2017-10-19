@@ -58,6 +58,7 @@ class BorrowDirect( object ):
         log.debug( '\n\nstarting run_search_exact_item()...' )
         srchr = Searcher()
         self.search_result = srchr.search_exact_item( patron_barcode, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE, search_type, search_value )
+        log.debug( 'search_result, ```%s```' % pprint.pformat(self.search_result) )
         log.info( 'run_search_exact_item() complete' )
         return
 
@@ -69,6 +70,7 @@ class BorrowDirect( object ):
         log.debug( '\n\nstarting run_search_bib_item()...' )
         srchr = Searcher()
         self.search_result = srchr.search_bib_item( patron_barcode, self.API_URL_ROOT, self.API_KEY, self.PARTNERSHIP_ID, self.UNIVERSITY_CODE, title, author, year )
+        log.debug( 'search_result, ```%s```' % pprint.pformat(self.search_result) )
         log.info( 'run_search_bib_item() complete' )
         return
 

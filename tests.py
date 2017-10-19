@@ -122,7 +122,6 @@ class BorrowDirectTests( unittest.TestCase ):
     #     self.assertEqual(
     #         'BRO-', bd.request_result['RequestNumber'][0:4] )
 
-
     def test_run_search_bib_item__found_and_available(self):
         """ Tests search for item found and available. """
         basics = {
@@ -136,8 +135,6 @@ class BorrowDirectTests( unittest.TestCase ):
         bd.run_search_bib_item( self.patron_barcode, title, author, year )
         self.assertEqual( ['Available', 'OrigNumberOfRecords', 'PickupLocation', 'RequestLink'], sorted(bd.search_result.keys()) )
         self.assertEqual( True, bd.search_result['Available'] )
-
-
 
     def test_run_request_exact_item__not_found(self):
         """ Tests manager exact-item requesting on not-found item.
@@ -226,23 +223,7 @@ class SearcherTests( unittest.TestCase ):
 
     def test_search_bib_item_found_available(self):
         """ Tests bib item search for available found item.
-            Example json response:
-                {
-                  "Available": true,
-                  "OrigNumberOfRecords": 7,
-                  "PickupLocation": [
-                    {
-                      "PickupLocationCode": "A",
-                      "PickupLocationDescription": "Rockefeller Library"
-                    }
-                  ],
-                  "RequestLink": {
-                    "ButtonLabel": "Request",
-                    "ButtonLink": "AddRequest",
-                    "RequestMessage": "Request this through Borrow Direct."
-                  }
-                }
-                """
+            See README for example full-json response. """
         s = Searcher()
         ( title, author, year ) = ( 'Zen and the art of motorcycle maintenance - an inquiry into values', ['Pirsig, Robert M'], '1974' )
         result_dct = s.search_bib_item(

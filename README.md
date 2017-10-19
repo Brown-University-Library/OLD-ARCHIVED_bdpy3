@@ -32,16 +32,35 @@ git clone, or pip install...
 
 ### common usage - search ###
 
-- search:
+- search via exact-item:
 
         >>> from bdpy3 import BorrowDirect
         >>> defaults = {
             'API_URL_ROOT': url, 'API_KEY': key, 'PARTNERSHIP_ID': id, 'UNIVERSITY_CODE': code }
         >>> bd = BorrowDirect( defaults )
-        >>> bd.run_search( patron_barcode, 'ISBN', '9780688002305' )
+        >>> bd.run_search_exact_item( patron_barcode, 'ISBN', '9780688002305' )
         >>> pprint( bd.search_result )
 
         {'Available': True,
+         'OrigNumberOfRecords': 5,
+         'PickupLocation': [{'PickupLocationCode': 'A',
+                             'PickupLocationDescription': 'Rockefeller Library'}],
+         'RequestLink': {'ButtonLabel': 'Request',
+                         'ButtonLink': 'AddRequest',
+                         'RequestMessage': 'Request this through Borrow Direct.'}}
+
+- search via bib-item:
+
+        >>> from bdpy3 import BorrowDirect
+        >>> defaults = {
+            'API_URL_ROOT': url, 'API_KEY': key, 'PARTNERSHIP_ID': id, 'UNIVERSITY_CODE': code }
+        >>> bd = BorrowDirect( defaults )
+        >>> ( title, author, year ) = ( 'Zen and the art of motorcycle maintenance - an inquiry into values', ['Pirsig, Robert M'], '1974' )
+        >>> bd.run_search_bib_item( patron_barcode, title, author, year )
+        >>> pprint( bd.request_result )
+
+        {'Available': True,
+         'OrigNumberOfRecords': 7,
          'PickupLocation': [{'PickupLocationCode': 'A',
                              'PickupLocationDescription': 'Rockefeller Library'}],
          'RequestLink': {'ButtonLabel': 'Request',
@@ -125,6 +144,8 @@ git clone, or pip install...
 
 
 ### notes ###
+
+- All searches and requests filter on format="Book". This meets our needs, but I can easily imagine other implementations, and may offer more flexibility regarding this in the future. Pull-requests welcome in the meantime.  :)
 
 - BorrowDirect() instantiation is flexible: you can pass in a dict, a settings-module, a settings-module-path, or nothing (but then set the instance-attributes directly)
 
