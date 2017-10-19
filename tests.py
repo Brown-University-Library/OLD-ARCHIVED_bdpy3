@@ -75,7 +75,7 @@ class BorrowDirectTests( unittest.TestCase ):
             'UNIVERSITY_CODE': self.university_code,
         }
         bd = BorrowDirect( basics )
-        bd.run_search( self.patron_barcode, 'ISBN', self.isbn_found_and_available )
+        bd.run_search_exact_item( self.patron_barcode, 'ISBN', self.isbn_found_and_available )
         self.assertEqual( ['Available', 'OrigNumberOfRecords', 'PickupLocation', 'RequestLink'], sorted(bd.search_result.keys()) )
         self.assertEqual( True, bd.search_result['Available'] )
 
@@ -88,7 +88,7 @@ class BorrowDirectTests( unittest.TestCase ):
             'UNIVERSITY_CODE': self.university_code,
         }
         bd = BorrowDirect( basics )
-        bd.run_search( self.patron_barcode, 'ISBN', self.isbn_found_and_unavailable )
+        bd.run_search_exact_item( self.patron_barcode, 'ISBN', self.isbn_found_and_unavailable )
         self.assertEqual( ['Available', 'OrigNumberOfRecords', 'RequestLink'], sorted(bd.search_result.keys()) )
         self.assertEqual( False, bd.search_result['Available'] )
 
@@ -101,7 +101,7 @@ class BorrowDirectTests( unittest.TestCase ):
             'UNIVERSITY_CODE': self.university_code,
         }
         bd = BorrowDirect( basics )
-        bd.run_search( self.patron_barcode, 'ISBN', self.isbn_not_found )
+        bd.run_search_exact_item( self.patron_barcode, 'ISBN', self.isbn_not_found )
         self.assertEqual(
             {"Problem":{"ErrorCode":"PUBFI002","ErrorMessage":"No result"}}, bd.search_result )
 
@@ -154,7 +154,7 @@ class BorrowDirectTests( unittest.TestCase ):
     #     self.assertEqual(
     #         {'RequestNumber': 'BRO-12345678'}, bd.request_result )
 
-    # end class BorrowDirectTests
+    ## end class BorrowDirectTests
 
 
 class AuthenticatorTests( unittest.TestCase ):
@@ -188,7 +188,7 @@ class AuthenticatorTests( unittest.TestCase ):
         self.assertEqual(
             True, validity )
 
-    # end class AuthenticatorTests
+    ## end class AuthenticatorTests
 
 
 class SearcherTests( unittest.TestCase ):
@@ -211,8 +211,8 @@ class SearcherTests( unittest.TestCase ):
         """ Tests basic isbn search for available found item. """
         s = Searcher()
         ( search_key, search_value ) = ( 'ISBN', self.isbn_found_and_available )
-        result_dct = s.search(
-            self.patron_barcode, search_key, search_value, self.api_url_root, self.api_key, self.partnership_id, self.university_code )
+        result_dct = s.search_exact_item(
+            self.patron_barcode, self.api_url_root, self.api_key, self.partnership_id, self.university_code, search_key, search_value )
         self.assertEqual(
             ['Available', 'OrigNumberOfRecords', 'PickupLocation', 'RequestLink'], sorted(result_dct.keys()) )
         self.assertEqual(
@@ -222,8 +222,8 @@ class SearcherTests( unittest.TestCase ):
         """ Tests basic isbn search for unavailable found item. """
         s = Searcher()
         ( search_key, search_value ) = ( 'ISBN', self.isbn_found_and_unavailable )
-        result_dct = s.search(
-            self.patron_barcode, search_key, search_value, self.api_url_root, self.api_key, self.partnership_id, self.university_code )
+        result_dct = s.search_exact_item(
+            self.patron_barcode, self.api_url_root, self.api_key, self.partnership_id, self.university_code, search_key, search_value )
         self.assertEqual(
             ['Available', 'OrigNumberOfRecords', 'RequestLink'], sorted(result_dct.keys()) )
         self.assertEqual(
@@ -233,8 +233,8 @@ class SearcherTests( unittest.TestCase ):
         """ Tests basic isbn search for not-found item. """
         s = Searcher()
         ( search_key, search_value ) = ( 'ISBN', self.isbn_not_found )
-        result_dct = s.search(
-            self.patron_barcode, search_key, search_value, self.api_url_root, self.api_key, self.partnership_id, self.university_code )
+        result_dct = s.search_exact_item(
+            self.patron_barcode, self.api_url_root, self.api_key, self.partnership_id, self.university_code, search_key, search_value )
         self.assertEqual(
             {"Problem":{"ErrorCode":"PUBFI002","ErrorMessage":"No result"}}, result_dct )
 
@@ -248,7 +248,7 @@ class SearcherTests( unittest.TestCase ):
     #     self.assertEqual(
     #         {"Problem":{"ErrorCode":"PUBFI002","ErrorMessage":"No result"}}, result_dct )
 
-    # end class SearcherTests
+    ## end class SearcherTests
 
 
 class RequesterTests( unittest.TestCase ):
@@ -307,7 +307,7 @@ class RequesterTests( unittest.TestCase ):
             ['BibSearch', 'PartnershipId', 'PickupLocation', 'ResultFilter'],
             sorted(params.keys()) )
 
-    # end class RequesterTests
+    ## end class RequesterTests
 
 
 if __name__ == '__main__':
