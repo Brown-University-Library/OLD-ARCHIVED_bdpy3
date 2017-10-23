@@ -77,7 +77,7 @@ git clone, or pip install...
 
         {'RequestNumber': 'BRO-12345678'}
 
-- request via bib item:
+- request via bib-item:
 
         >>> from bdpy3 import BorrowDirect
         >>> defaults = {
