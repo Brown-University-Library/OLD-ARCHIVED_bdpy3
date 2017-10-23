@@ -151,22 +151,24 @@ class BorrowDirectTests( unittest.TestCase ):
         self.assertEqual(
             {'Problem': {'ErrorCode': 'PUBRI003', 'ErrorMessage': 'No result'}}, bd.request_result )
 
-    # def test_run_request_bib_item(self):
-    #     """ Tests manager bib-item requesting.
-    #         NOTE THAT THIS WILL REALLY ATTEMPT THE REQUEST. """
-    #     basics = {
-    #         'API_URL_ROOT': self.api_url_root,
-    #         'API_KEY': self.api_key,
-    #         'PARTNERSHIP_ID': self.partnership_id,
-    #         'UNIVERSITY_CODE': self.university_code,
-    #         'PICKUP_LOCATION': self.pickup_location,
-    #     }
-    #     bd = BorrowDirect( basics )
-    #     ( title, author, year ) = ( 'Zen and the art of motorcycle maintenance - an inquiry into values', ['Pirsig, Robert M'], '1974' )
-    #     log.debug( 'title, ```%s```' % title )
-    #     bd.run_request_bib_item( self.patron_barcode, title, author, year )
-    #     self.assertEqual(
-    #         {'RequestNumber': 'BRO-12345678'}, bd.request_result )
+    def test_run_request_bib_item__not_found(self):
+        """ Tests manager bib-item requesting.
+            NOTE THAT THIS WILL REALLY ATTEMPT THE REQUEST. """
+        basics = {
+            'API_URL_ROOT': self.api_url_root,
+            'API_KEY': self.api_key,
+            'PARTNERSHIP_ID': self.partnership_id,
+            'UNIVERSITY_CODE': self.university_code,
+            'PICKUP_LOCATION': self.pickup_location,
+        }
+        bd = BorrowDirect( basics )
+        ( title, author, year ) = ( 'Zen and the art of motorcycle maintenance - an inquiry into values', ['Pirsig, Robert M'], '1874' )
+        log.debug( 'title, ```%s```' % title )
+        bd.run_request_bib_item( self.patron_barcode, title, author, year )
+        self.assertEqual(
+            {'Problem': {'ErrorCode': 'PUBRI003', 'ErrorMessage': 'No result'}},
+            bd.request_result
+        )
 
     ## end class BorrowDirectTests
 
